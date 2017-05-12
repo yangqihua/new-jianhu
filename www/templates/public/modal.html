@@ -1,0 +1,67 @@
+<script src="http://res.jian-hu.cn/static/dist/js/app-public.js"></script>
+<style type="text/css">
+    #jian-cover {
+        display: none;
+        position: absolute;
+        top: 0%;
+        left: 0%;
+        width: 100%;
+        height: 100%;
+        background-color: black;
+        z-index: 1001;
+        -moz-opacity: 0.8;
+        opacity: 0.0;
+        filter: alpha(opacity=80);
+    }
+
+    #jian-modal {
+        width: 66%;
+        /*height: 50%;*/
+        background-color: #fff;
+        padding: 10px;
+        position: absolute;
+        display: none;
+        left: 45%;
+        z-index: 1002;
+
+        -webkit-box-shadow: 0 0 60px rgba(155, 204, 204, .5);
+        -moz-box-shadow: 0 0 60px rgba(155, 204, 204, .5);
+        box-shadow: 0 0 60px rgba(155, 204, 204, .5);
+    }
+
+    #jian-modal-close {
+        width: 25px;
+        height: 25px;
+        position: absolute;
+        top: 0px;
+        right: 0px;
+    }
+</style>
+
+<div id="jian-cover"></div>
+
+<div id="jian-modal">
+    <div id="jian-modal-close">
+        <a href="javascript:void(0)" id="closebt">
+            <img src="http://res.jian-hu.cn/static/img/guanbi@2x.png" width="100%" height="100%">
+        </a>
+    </div>
+    <div id="jian-modal-portrait" style="margin: -30px auto;margin-bottom: 0;width: 40px;height:40px;">
+        <div style="position: relative;">
+            <img id="modal_user_img" src="" style="width: 100%;height: 100%;border-radius: 50%;">
+            <img id="vip" src="http://res.jian-hu.cn/static/img/v@2x.png"
+                 style="position: absolute;top: 20px;left: 20px;width: 26px;height: 26px;">
+        </div>
+
+    </div>
+    <div id="name" style="text-align: center;line-height: 16px;margin-top:16px;font-size: 16px;"></div>
+    <div id="user_profile" style="margin: 15px 0;display: flex;justify-content: center;font-size: 14px;">
+        <div id="modal_user_title" style="color: #00a8ff;"></div>
+        <div id="modal_user_company" style="margin: 0 6px;color: #ff9600;"></div>
+        <div id="modal_user_city" style="color: #8e8e8e;"></div>
+    </div>
+    <div id="info"
+         style="text-align:left;margin: 6px 8px;font-size: 13px;line-height: 16px;word-wrap: break-word;word-break: break-all;">
+    </div>
+</div>
+

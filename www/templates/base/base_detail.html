@@ -1,0 +1,288 @@
+{% extends 'base/base.html' %}
+
+{% block parent_css %}
+    <link rel="stylesheet" href="http://cdn.jian-hu.cn/static/dist/css/base_detail.css">
+    {% block css %}
+    {% endblock %}
+{% endblock %}
+
+{% block content %}
+    <div class="weui_tab_bd" {% block body_css %}style="margin-top: -42px;padding-top: 87px"{% endblock %}>
+        <!--内容区-->
+        <div id="content">
+            <div class="jian_list_items">
+                <!-- item-start -->
+                <div class="jian-item-title">
+                    <div class="jian-item-title-font">
+                        {{ company_name | safe }}{{ job_title |safe }}（{{ job_city |safe }}）
+                    </div>
+
+                    <div class="jian-item-content"
+                         style="display: flex;flex-wrap: nowrap;justify-content:space-between;">
+                        <div>
+                            <img class="jian-item-content-img"
+                                 src="http://cdn.jian-hu.cn/static/img/icn_place@2x.png"><font
+                                class="jian-item-content-fontyahei">{{ job_addr | safe }}</font>
+                        </div>
+                        <div>
+                            <img src="http://cdn.jian-hu.cn/static/img/icn_time@2x.png"
+                                 class="jian-item-content-img"><font
+                                class="jian-item-content-fontyahei">{{ work_experience | safe }}</font>
+                        </div>
+                        <div>
+                            <img src="http://cdn.jian-hu.cn/static/img/icn_xueli@2x.png"
+                                 class="jian-item-content-img"><font
+                                class="jian-item-content-fontyahei">{{ education | safe }}</font>
+                        </div>
+                        <div>
+                            <div class="jian-item-content-fontxinzi" style="float: right">￥{{ salary | safe }}</div>
+                        </div>
+                    </div>
+
+                    <div class="weui-row jian-item-skill">
+                        <div class="weui-col-33">
+                            <div class="jian-item-content-hidden" id="skill1">
+                            </div>
+                        </div>
+
+                        <div class="weui-col-33">
+                            <div class="jian-item-content-hidden" id="skill2">
+                            </div>
+                        </div>
+
+                        <div class="weui-col-33">
+                            <div class="jian-item-content-hidden" id="skill3">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="weui-row" style="margin-top: 6px;">
+                        <div class="weui-col-33">
+                            <div class="jian-item-content-hidden" id="skill4">
+                            </div>
+
+                        </div>
+
+                        <div class="weui-col-33">
+                            <div class="jian-item-content-hidden" id="skill5">
+                            </div>
+                        </div>
+
+                        <div class="weui-col-33">
+                            <div class="jian-item-content-hidden" id="skill6">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- item-end -->
+
+                <div class="jian-item-space">
+                    <span style="margin-left: 15px;">职位发布者</span>
+                </div>
+
+                <div class="jian-item-me" style="display: flex;flex-wrap: nowrap;justify-content:space-between;">
+                    <div id="jian-portrait" style="position: relative;">
+                        <img src="{{ portrait | safe }}" class="jian-item-me-img"><font
+                            class="jian-item-me-fontname">{{ username | safe }}</font>
+                        <img src="http://cdn.jian-hu.cn/static/img/v@2x.png" style="display:{{ vip_display |safe| default:"none" }};position: absolute;top: 16px;left: 12px;width: 20px;height: 20px;">
+                    </div>
+
+                    <div>
+                        <div class="jian-item-me-company">
+                            {{ user_company | safe }}
+                        </div>
+                    </div>
+
+                    <div>
+                        <a href="/user/fabu_list?user_uuid={{ user_uuid | safe }}">
+                            <div class="jian-item-me-zhiwei">
+                                <font>共发布{{ user_title_count | safe }}个职位></font>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="jian-item-space">
+                    <span style="margin-left: 15px;">关于雇主</span>
+                </div>
+
+                <div id="img-view" style="margin: 15px;">
+                    <div style="width: 100%">
+                        <img class="pre_img" id="img1" src="" width="100%">
+                    </div>
+
+                    <div style="width: 100%;margin-top: 10px;">
+                        <img class="pre_img" id="img2" src="" width="100%">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- content end -->
+        <!--滚动加载控件-->
+        <div class="weui-infinite-scroll" id="load-more">
+            <div class="infinite-preloader"></div>
+            正在加载...
+        </div>
+    </div>
+    <div class="jian-erweima" id="tcode" style="display:none;">
+        <img src="http://cdn.jian-hu.cn/static/img/erweima.png" width="100%" height="100%">
+    </div>
+{% endblock %}
+
+{% block footer %}
+    <div class="weui_tabbar">
+        <a href="javascript:;" id="toggle_job" class="weui_tabbar_item" style="padding-top: 0">
+            <div class="jian-tabbar-xingqu">
+                <span id="toggle_job_text" style="margin-top: 14px;"></span>
+            </div>
+        </a>
+        <a href="javascript:;" id="edit_job" class="weui_tabbar_item" style="padding-top: 0">
+            <div class="jian-tabbar-friend">
+                <span id="edit_job_text" style="margin-top: 14px;"></span>
+            </div>
+        </a>
+    </div>
+{% endblock %}
+
+{% block jsApiList %}
+    'previewImage'
+{% endblock %}
+
+{% block jsApiReady %}
+    $("#img-view").on('click', '.pre_img', function (event) {
+    var _this = $(event.target);
+    var imgArray = [];
+    var curImageSrc = _this.attr('src');
+    $('.pre_img').each(function (index, el) {
+    var itemSrc = $(this).attr('src');
+    imgArray.push(itemSrc);
+    });
+    wx.previewImage({
+    current: curImageSrc,
+    urls: imgArray
+    });
+    });
+
+    var share_uuid = Math.uuid();
+    {% block ApiReady %}
+    {% endblock %}
+{% endblock %}
+
+//朋友圈
+{% block ShareQuanTitle %}
+    user_info_map.user_company + user_info_map.user_title + user_info_map.nick
+    + '求你推荐' + company_name+job_title + '，快来看看吧！'
+{% endblock %}
+
+{% block ShareQuanLink %}
+    'http://wx.jian-hu.cn/job/get_job?is_share=1&job_uuid=' + uuid+"&last_share_uuid="+share_uuid
+{% endblock %}
+{% block ShareQuanImg %}user_info_map.portrait{% endblock %}
+
+{% block ShareQuanSuccess %}
+    $.post("/job/ajax_share",{"share_uuid":share_uuid,"last_share_uuid":'{{ last_share_uuid |safe }}',"job_uuid":'{{ uuid |safe }}'},function(data){
+        if(data!="ok"){
+        $.toast("error","text");
+        }
+    });
+{% endblock %}
+
+//微信好友
+{% block ShareFriendTitle %}'荐乎：一个荐人的神器！'{% endblock %}
+{% block ShareFriendDesc %}
+    user_info_map.user_company + user_info_map.user_title + user_info_map.nick
+    + '求你推荐' + company_name+job_title + '，快来看看吧！'
+{% endblock %}
+{% block ShareFriendLink %}
+    'http://wx.jian-hu.cn/job/get_job?is_share=1&job_uuid=' + uuid+"&last_share_uuid="+share_uuid
+{% endblock %}
+
+{% block ShareFriendImg %}
+    user_info_map.portrait
+{% endblock %}
+
+{% block ShareFriendSuccess %}
+    $.post("/job/ajax_share",{"share_uuid":share_uuid,"last_share_uuid":'{{ last_share_uuid |safe }}',"job_uuid":'{{ uuid |safe }}'},function(data){
+        if(data!="ok"){
+        $.toast("error","text");
+        }
+    });
+{% endblock %}
+
+{% block parent_script %}
+    {% include "public/zhezhao.html" %}
+    {% include "public/modal.html" %}
+    <script src="http://cdn.jian-hu.cn/static/dist/js/app-public.js"></script>
+    <script src="http://cdn.jian-hu.cn/static/dist/js/base_detail.js"></script>
+    <script type="text/javascript">
+
+        var bind_wx = '{{ bind_wx | safe | default:"1" }}';
+        if(bind_wx=="1"){
+            $("#tcode").css("display","none");
+        }else{
+            $("#tcode").css("display","block");
+        }
+
+
+        var user_info_map = {{ user_info_map|safe}};
+        var skills = '{{  skill|safe}}';
+        skills = skills.split(',');
+        for (var i = 0; i < skills.length; i++) {
+            if (skills[i] != "") {
+                $('.jian-item-skill').css('padding-top', '15px');
+                $("#skill" + (i + 1)).text(skills[i]);
+                $("#skill" + (i + 1)).css({'border': '1px solid #fec882'});
+            }
+        }
+
+        var piclist = '{{  piclist|safe}}';
+        pics = piclist.split(',');
+        if (piclist == "") {
+            $('.pre_img').remove();
+            $('#load-more').html("∩_∩ 暂无图片");
+        } else if (piclist != "" && pics.length == 1) {
+            $("#img1").attr('src', "http://ugcres.oss-cn-shanghai.aliyuncs.com/" + pics[0]);
+            $("#img2").remove();
+            $('#load-more').html("∩_∩ 暂无更多图片");
+        } else if (pics.length == 2) {
+            $("#img1").attr('src', "http://ugcres.oss-cn-shanghai.aliyuncs.com/" + pics[0]);
+            $("#img2").attr('src', "http://ugcres.oss-cn-shanghai.aliyuncs.com/" + pics[1]);
+            $('#load-more').html("∩_∩ 暂无更多图片");
+        } else {
+            // $('.weui-infinite-scroll').show();
+            $("#img1").attr('src', "http://ugcres.oss-cn-shanghai.aliyuncs.com/" + pics[0]);
+            $("#img2").attr('src', "http://ugcres.oss-cn-shanghai.aliyuncs.com/" + pics[1]);
+            var img_index = 2;
+            var loading = false;  //状态标记
+            $('.weui_tab_bd').infinite();
+            $('.weui_tab_bd').infinite().on("infinite", function () {
+                if (img_index >= pics.length) {
+                    $('#load-more').html("∩_∩ 暂无更多图片")
+                    $('.weui_tab_bd').destroyInfinite(); //销毁该组件
+                } else {
+                    if (loading) return;
+                    loading = true;
+                    var jian_item = '<div style="width: 100%;margin-top: 10px;"><img class="pre_img" src="http://ugcres.oss-cn-shanghai.aliyuncs.com/' + pics[img_index++] + '" width="100%"></div>';
+                    $("#img-view").append(jian_item);
+                    loading = false;
+                }
+            })
+        }
+
+        var company_name = '{{ company_name|safe }}';
+        var job_title = '{{ job_title|safe }}';
+        var uuid = '{{ uuid|safe }}';
+
+        user_info_map = user_info_map[uuid];
+        $('#jian-portrait').on('click', function (event) {
+            openModal(user_info_map);
+        });
+
+
+
+    </script>
+    {% block script %}
+
+    {% endblock %}
+{% endblock %}

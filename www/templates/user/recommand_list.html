@@ -1,0 +1,80 @@
+{% extends "base/base_list.html" %}
+{#{% block parent_css %}#}
+{#    <link rel="stylesheet" href="http://res.jian-hu.cn/static/dist/css/base_list.css">#}
+{#    {% block css %}#}
+{#    {% endblock %}#}
+{#{% endblock %}#}
+
+{% block header %}
+    <div class="jian-header-middle">
+        推荐记录
+    </div>
+{% endblock %}
+{% block header_right %}
+{% endblock %}
+
+{% block body_css %}
+    margin-top: 0px;padding-top: 45px;background-color: #ebebeb;
+{% endblock %}
+
+{% block sub_content %}
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
+{% block parent_script %}
+    {% include "public/modal.html" %}
+    {% include "public/siderbar.html" %}
+    <script type="text/javascript">
+        var recommend_job_list = {{ recommend_job_list|safe }};
+        var user_info_map = {{ user_info_map|safe }};
+        var job;
+        var jian_item;
+        for (var i = 0; i < recommend_job_list.length; i++) {
+            job = recommend_job_list[i];
+            jian_item = '<div class="jian-item-space"></div><div class="jian-item-title" id="' + job.job_uuid + '"><div style="display:flex;flex-wrap: nowrap;justify-content:space-between;line-height: 20px"> <div class="jian-item-title-font">' + job.company_name + job.job_title + '（' + job.job_city + '）</div><div class="jian-item-content-fontyahei" style="line-height: 20px;">共推荐<span style="font-size: 17px;color:#ff9600">' + job.recommend_num + '次</span> </div></div><div style="padding: 10px;background-color: #ebebeb;margin-top: 15px;"><div style="line-height: 14px;display: flex;flex-wrap: nowrap;justify-content:space-between;"><div><font class="jian-item-content-fontxinzi">' + job.salary + '</font></div><div><font class="jian-item-content-fontyahei">' + job.job_addr + '</font></div><div><font class="jian-item-content-fontyahei">' + job.work_experience + '</font></div><div><div class="jian-item-content-fontyahei">' + job.education + '</div></div></div><div class="jian-item-me" style="display: flex;flex-wrap: nowrap;justify-content:space-between;"><div style="position: relative;" id="jian-portrait"><img src="' + job.portrait + '" class="jian-item-me-img"><font class="jian-item-me-fontname">' + job.username + '</font><img src="http://res.jian-hu.cn/static/img/v@2x.png" style="display:'+job.vip_display+';" class="jian-item-vip"></div><div><font class="jian-item-me-fontcompany">' + job.user_company + '</font></div><div><font class="jian-item-me-fontcompany">' + job.create_time + '</font></div></div></div></div>'
+            $(".jian_list_items").append(jian_item);
+        }
+        var from = recommend_job_list.length;
+        console.log(from);
+        if (from >= 10) {        //第一页数据大于10才启用滚到加载组件,一页数据为10个
+            $('.weui-infinite-scroll').css('display', 'block');//开始显示正在加载
+            var loading = false;  //状态标记
+            $('.weui_tab_bd').infinite().on("infinite", function () {
+                if (loading) return;
+                loading = true;
+                $.get("/user/recommand_list", {"from": from},
+                        function (data) {
+                            recommend_job_list = data.recommend_job_list;
+                            user_info = data.user_info_map;
+                            console.log(user_info);
+                            from = from + recommend_job_list.length;
+                            if (recommend_job_list.length < 10) {
+                                $('#load-more').html("∩_∩ 暂无更多职位信息");
+                                $('.weui_tab_bd').destroyInfinite(); //销毁该组件
+                            }
+                            for (var i = 0; i < recommend_job_list.length; i++) {
+                                var job = recommend_job_list[i];
+                                jian_item = '<div class="jian-item-space"></div><div class="jian-item-title" id="' + job.job_uuid + '"><div style="display:flex;flex-wrap: nowrap;justify-content:space-between;line-height: 20px"> <div class="jian-item-title-font">' + job.company_name + job.job_title + '（' + job.job_city + '）</div><div class="jian-item-content-fontyahei" style="line-height: 20px;">共推荐<span style="font-size: 17px;color:#ff9600">' + job.recommend_num + '次</span> </div></div><div style="padding: 10px;background-color: #ebebeb;margin-top: 15px;"><div style="line-height: 14px;display: flex;flex-wrap: nowrap;justify-content:space-between;"><div><font class="jian-item-content-fontxinzi">' + job.salary + '</font></div><div><font class="jian-item-content-fontyahei">' + job.job_addr + '</font></div><div><font class="jian-item-content-fontyahei">' + job.work_experience + '</font></div><div><div class="jian-item-content-fontyahei">' + job.education + '</div></div></div><div class="jian-item-me" style="display: flex;flex-wrap: nowrap;justify-content:space-between;"><div id="jian-portrait" style="position: relative;"><img src="' + job.portrait + '" class="jian-item-me-img"><font class="jian-item-me-fontname">' + job.username + '</font><img src="http://res.jian-hu.cn/static/img/v@2x.png" style="display:'+job.vip_display+';" class="jian-item-vip"></div><div><font class="jian-item-me-fontcompany">' + job.user_company + '</font></div><div><font class="jian-item-me-fontcompany">' + job.create_time + '</font></div></div></div></div>'
+                                $(".jian_list_items").append(jian_item);
+                                user_info_map[job.job_uuid] = user_info[job.job_uuid]
+                            }
+                            loading = false;
+                        });
+            });
+        } else {
+            $('#load-more').html("∩_∩ 暂无更多职位信息");
+        }
+        $('.jian_list_items').on('click', "#jian-portrait", function (event) {
+            event.preventDefault();
+            var jian_item_title = $(this).parent().parent().parent();
+            var job_uuid = jian_item_title.attr('id');
+            var user = user_info_map[job_uuid];
+            openModal(user);
+            return false;
+        });
+        init_sidebar('.jian_list_items');
+    </script>
+    {% block script %}
+    {% endblock %}
+{% endblock %}

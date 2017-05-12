@@ -1,0 +1,53 @@
+{% extends "base/base_list.html" %}
+{% block css %}
+    {#    <link rel="stylesheet" href="http://res.jian-hu.cn/static/dist/css/app-index.css">#}
+    <style type="text/css">
+        .jian-fabu-btn {
+            position: absolute;
+            right: 12px;
+            bottom: 52px;
+            height: 80px;
+            width: 80px;
+        }
+    </style>
+{% endblock %}
+
+{% block header_left %}
+{% endblock %}
+{% block header %}
+    <img src="http://res.jian-hu.cn/static/img/jianhu@2x.png" height="30px" width="52px" style="margin: 7px auto">
+{% endblock %}
+{% block header_right %}
+{% endblock %}
+{#header end#}
+
+{% block sub_content %}
+    <div class="jian-fabu-btn">
+        <a href="javascript:;" style="width: 80px;height: 80px;"><img
+                src="http://res.jian-hu.cn/static/img/btn_fabu@2x.png" height="100%"></a>
+    </div>
+{% endblock %}
+
+{% block script %}
+
+    <script type="text/javascript">
+        var bind_wx = '{{ bind_wx | safe }}';
+        var is_edit = '{{ is_edit | safe }}';
+
+        $(".jian-fabu-btn").on("touchend", function (event) {
+            if (bind_wx == '1' && is_edit == '1') {
+                location.href = "/job/fabu_job";
+            } else if (bind_wx == '0' && is_edit == '1') {
+                $.alert("请关注公众号“荐乎”!", "提示", function () {
+            });
+            } else if (bind_wx == '1' && is_edit == '0') {
+                $.alert("请至个人中心完善资料！", "提示", function () {
+                });
+            } else if (bind_wx == '0' && is_edit == '0') {
+                $.alert("请关注公众号“荐乎”并至个人中心完善资料!", "提示", function () {
+                });
+            }
+        });
+
+    </script>
+{% endblock %}

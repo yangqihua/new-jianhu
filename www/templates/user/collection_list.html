@@ -1,0 +1,89 @@
+{% extends "base/base_list.html" %}
+{% block css %}
+    {#    <link rel="stylesheet" href="http://res.jian-hu.cn/static/dist/css/app-index.css">#}
+{% endblock %}
+
+{% block header %}
+    <div class="jian-header-middle">
+        我的收藏
+    </div>
+{% endblock %}
+{% block header_right %}
+
+{% endblock %}
+{#header end#}
+
+{% block body_css %}
+    margin-top: 0;padding-top: 45px
+{% endblock %}
+
+{% block sub_content %}
+{% endblock %}
+
+{% block job_url %}
+    location.href = "/user/fabu_detail?job_uuid=" + job_uuid;
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
+
+{% block parent_script %}
+    {% include "public/modal.html" %}
+    <script src="http://res.jian-hu.cn/static/dist/js/app-public.js"></script>
+    <script type="text/javascript">
+
+        var collection_job_list = {{ collection_job_list|safe }};
+        var user_info_map = {{ user_info_map|safe }};
+        var job;
+        var jian_item;
+        for (var i = 0; i < collection_job_list.length; i++) {
+            job = collection_job_list[i];
+            jian_item = '<div class="jian-item-space"></div><div class="jian-item-title" name="'+job.last_share_uuid+'" id="' + job.job_uuid + '"><div><font class="jian-item-title-font">' + job.company_name + job.job_title + '（' + job.job_city + '）</font></div><div class="jian-item-content" style="display: flex;flex-wrap: nowrap;justify-content:space-between;"> <div><img class="jian-item-content-img" src="http://res.jian-hu.cn/static/img/icn_place@2x.png"><font class="jian-item-content-fontyahei">' + job.job_addr + '</font> </div><div><img src="http://res.jian-hu.cn/static/img/icn_time@2x.png" class="jian-item-content-img"><font class="jian-item-content-fontyahei">' + job.work_experience + '</font> </div><div><img src="http://res.jian-hu.cn/static/img/icn_xueli@2x.png" class="jian-item-content-img"><font class="jian-item-content-fontyahei">' + job.education + '</font> </div><div><div class="jian-item-content-fontxinzi" style="float: right">￥' + job.salary + '</div></div></div><div class="jian-item-me" style="display: flex;flex-wrap: nowrap;justify-content:space-between;"> <div id="jian-portrait" style="position: relative;"><img src="' + job.portrait + '" class="jian-item-me-img"><font class="jian-item-me-fontname">' + job.username + '</font><img src="http://res.jian-hu.cn/static/img/v@2x.png" style="display:'+job.vip_display+';" class="jian-item-vip"> </div><div><font class="jian-item-me-fontcompany">' + job.user_company + '</font></div><div><font class="jian-item-me-fontcompany">' + job.create_time + '发布</font> </div></div></div>';
+            $(".jian_list_items").append(jian_item);
+        }
+
+        var from = collection_job_list.length;
+        console.log(from);
+        if (from >= 10) {        //第一页数据大于10才启用滚到加载组件,一页数据为10个
+            $('.weui-infinite-scroll').css('display', 'block');//开始显示正在加载
+            var loading = false;  //状态标记
+            $('.weui_tab_bd').infinite().on("infinite", function () {
+                if (loading) return;
+                loading = true;
+                $.get("/user/collection_list", {"from": from},
+                        function (data) {
+                            console.log(data);
+                            collection_job_list = data.collection_job_list;
+                            from = from + collection_job_list.length;
+                            user_info = data.user_info_map;
+                            from = from + collection_job_list.length;
+                            if (collection_job_list.length < 10) {
+                                $('#load-more').html("∩_∩ 暂无更多职位信息");
+                                $('.weui_tab_bd').destroyInfinite(); //销毁该组件
+                            }
+                            for (var i = 0; i < collection_job_list.length; i++) {
+                                var job = collection_job_list[i];
+                                jian_item = '<div class="jian-item-space"></div><div class="jian-item-title" name="'+job.last_share_uuid+'" id="' + job.job_uuid + '"><div><font class="jian-item-title-font">' + job.company_name + job.job_title + '（' + job.job_city + '）</font></div><div class="jian-item-content" style="display: flex;flex-wrap: nowrap;justify-content:space-between;"> <div><img class="jian-item-content-img" src="http://res.jian-hu.cn/static/img/icn_place@2x.png"><font class="jian-item-content-fontyahei">' + job.job_addr + '</font> </div><div><img src="http://res.jian-hu.cn/static/img/icn_time@2x.png" class="jian-item-content-img"><font class="jian-item-content-fontyahei">' + job.work_experience + '</font> </div><div><img src="http://res.jian-hu.cn/static/img/icn_xueli@2x.png" class="jian-item-content-img"><font class="jian-item-content-fontyahei">' + job.education + '</font> </div><div><div class="jian-item-content-fontxinzi" style="float: right">￥' + job.salary + '</div></div></div><div class="jian-item-me" style="display: flex;flex-wrap: nowrap;justify-content:space-between;"> <div id="jian-portrait" style="position: relative;"><img src="' + job.portrait + '" class="jian-item-me-img"><font class="jian-item-me-fontname">' + job.username + '</font><img src="http://res.jian-hu.cn/static/img/v@2x.png" style="display:'+job.vip_display+';" class="jian-item-vip"> </div><div><font class="jian-item-me-fontcompany">' + job.user_company + '</font></div><div><font class="jian-item-me-fontcompany">' + job.create_time + '发布</font> </div></div></div>';
+                                $(".jian_list_items").append(jian_item);
+                                user_info_map[job.job_uuid] = user_info[job.job_uuid];
+                            }
+                            loading = false;
+                        });
+            });
+        } else {
+            $('#load-more').html("∩_∩ 暂无更多职位信息");
+        }
+
+        $('.jian_list_items').on('click', ".jian-item-title", function (event) {
+            var _this = $(event.target);
+            var job_uuid = $(this).attr('id');
+            var last_share_uuid = $(this).attr('name');
+            if (_this.hasClass('jian-item-me-img') || _this.hasClass('jian-item-vip') || _this.hasClass('jian-item-me-fontname')) {
+                var user = user_info_map[job_uuid];
+                openModal(user);
+            } else {
+                location.href = "/job/get_job?job_uuid=" + job_uuid+"&last_share_uuid="+last_share_uuid;
+            }
+        });
+    </script>
+{% endblock %}

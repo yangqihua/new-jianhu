@@ -1,0 +1,73 @@
+
+.jian-chat-item {
+    padding: 8px 12px;
+    border-bottom: 1px solid #ebebeb;
+    position: relative;
+}
+
+.jian-chat-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.jian-chat-name {
+    font-size: 14px;
+    /*color: #00a8ff;*/
+    color: #000000;
+    margin-left: 10px;
+}
+
+.jian-chat-time {
+    font-size: 12px;
+    color: #8e8e8e;
+    margin-right: 6px;
+    text-align: right;
+}
+
+.jian-chat-content {
+    font-size: 12px;
+    margin: 0 12px 0 10px;
+    color: #00a8ff;
+
+    /*display:block;*/
+    word-break: keep-all;
+    white-space: nowrap;
+    overflow: hidden; /* 内容超出宽度时隐藏超出部分的内容 */
+    text-overflow: ellipsis;
+}
+
+.jian-reddot {
+    width: 8px;
+    height: 8px;
+    background-color: #F00;
+    border-radius: 50%;
+    position: absolute;
+    top: -4px;
+    right: -4px;
+}
+
+.last_words {
+    color: #ff9600;
+    font-size: 12px;
+
+    /*display:block;*/
+    word-break: keep-all;
+    white-space: nowrap;
+    overflow: hidden; /* 内容超出宽度时隐藏超出部分的内容 */
+    text-overflow: ellipsis;
+}
+
+.job_title{
+    font-size: 12px;
+    padding-right: 30px;
+    /*display:block;*/
+    word-break: keep-all;
+    white-space: nowrap;
+    overflow: hidden; /* 内容超出宽度时隐藏超出部分的内容 */
+    text-overflow: ellipsis;
+}
+
+
+
+

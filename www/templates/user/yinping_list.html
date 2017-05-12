@@ -1,0 +1,76 @@
+{% extends "base/base_list.html" %}
+
+{% block header %}
+    <div class="jian-header-middle">
+        应聘记录
+    </div>
+{% endblock %}
+{% block header_right %}
+{% endblock %}
+{% block body_css %}
+    margin-top: 0px;padding-top: 45px;background-color: #ebebeb;
+{% endblock %}
+
+{% block sub_content %}
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
+{% block parent_script %}
+    {% include "public/modal.html" %}
+    <script type="text/javascript">
+        var interview_job_list = {{ interview_job_list|safe }};
+        var user_info_map = {{ user_info_map|safe }};
+        var job;
+        var jian_item;
+        console.log(interview_job_list);
+        for (var i = 0; i < interview_job_list.length; i++) {
+            job = interview_job_list[i];
+            jian_item = '<div class="jian-item-space"></div><div class="jian-item-title" id="' + job.job_uuid + '"><div style="display:flex;flex-wrap: nowrap;justify-content:space-between;line-height: 20px"> <div class="jian-item-title-font">' + job.company_name +job.job_title + '（' + job.job_city + '）</div></div><div style="padding: 10px;background-color: #ebebeb;margin-top: 15px;"><div style="line-height: 14px;display: flex;flex-wrap: nowrap;justify-content:space-between;"><div><font class="jian-item-content-fontxinzi">' + job.salary + '</font></div><div><font class="jian-item-content-fontyahei">' + job.job_addr + '</font></div><div><font class="jian-item-content-fontyahei">' + job.work_experience + '</font></div><div><div class="jian-item-content-fontyahei">' + job.education + '</div></div></div><div class="jian-item-me" style="display: flex;flex-wrap: nowrap;justify-content:space-between;"><div id="jian-portrait" style="position: relative;"><img src="' + job.portrait + '" class="jian-item-me-img"><font class="jian-item-me-fontname">' + job.username + '</font><img src="http://res.jian-hu.cn/static/img/v@2x.png" style="display:'+job.vip_display+';" class="jian-item-vip"></div><div><font class="jian-item-me-fontcompany">' + job.user_company + '</font></div><div><font class="jian-item-me-fontcompany">' + job.create_time + '</font></div></div></div></div>'
+            $(".jian_list_items").append(jian_item);
+        }
+        var from = interview_job_list.length;
+        console.log(from);
+        if (from >= 10) {        //第一页数据大于10才启用滚到加载组件,一页数据为10个
+            $('.weui-infinite-scroll').css('display', 'block');//开始显示正在加载
+            var loading = false;  //状态标记
+            $('.weui_tab_bd').infinite().on("infinite", function () {
+                if (loading) return;
+                loading = true;
+                $.get("/user/interview_list", {"from": from},
+                        function (data) {
+                            interview_job_list = data.interview_job_list;
+                            user_info = data.user_info_map;
+                            console.log(user_info);
+                            from = from + interview_job_list.length;
+                            if (interview_job_list.length < 10) {
+                                $('#load-more').html("∩_∩ 暂无更多职位信息");
+                                $('.weui_tab_bd').destroyInfinite(); //销毁该组件
+                            }
+                            for (var i = 0; i < interview_job_list.length; i++) {
+                                var job = interview_job_list[i];
+                                jian_item = '<div class="jian-item-space"></div><div class="jian-item-title" id="' + job.job_uuid + '"><div style="display:flex;flex-wrap: nowrap;justify-content:space-between;line-height: 20px"> <div class="jian-item-title-font">' +job.company_name + job.job_title + '（' + job.job_city + '）</div></div><div style="padding: 10px;background-color: #ebebeb;margin-top: 15px;"><div style="line-height: 14px;display: flex;flex-wrap: nowrap;justify-content:space-between;"><div><font class="jian-item-content-fontxinzi">' + job.salary + '</font></div><div><font class="jian-item-content-fontyahei">' + job.job_addr + '</font></div><div><font class="jian-item-content-fontyahei">' + job.work_experience + '</font></div><div><div class="jian-item-content-fontyahei">' + job.education + '</div></div></div><div class="jian-item-me" style="display: flex;flex-wrap: nowrap;justify-content:space-between;"><div id="jian-portrait" style="position: relative;"><img src="' + job.portrait + '" class="jian-item-me-img"><font class="jian-item-me-fontname">' + job.username + '</font><img src="http://res.jian-hu.cn/static/img/v@2x.png" style="display:'+job.vip_display+';" class="jian-item-vip"></div><div><font class="jian-item-me-fontcompany">' + job.user_company + '</font></div><div><font class="jian-item-me-fontcompany">' + job.create_time + '</font></div></div></div></div>'
+                                $(".jian_list_items").append(jian_item);
+                                user_info_map[job.job_uuid] = user_info[job.job_uuid]
+                            }
+                            loading = false;
+                        });
+            });
+        } else {
+            $('#load-more').html("∩_∩ 暂无更多职位信息");
+        }
+
+        $('.jian_list_items').on('click',".jian-item-title", function (event) {
+            var _this = $(event.target);
+            var job_uuid = $(this).attr('id');
+            if (_this.hasClass('jian-item-me-img') || _this.hasClass('jian-item-vip')|| _this.hasClass('jian-item-me-fontname')) {
+                var user = user_info_map[job_uuid];
+                openModal(user);
+            } else {
+                    location.href = "/job/interest_job?job_uuid=" + job_uuid;
+            }
+        });
+    </script>
+    {% block script %}
+    {% endblock %}
+{% endblock %}

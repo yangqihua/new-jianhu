@@ -1,0 +1,157 @@
+
+.jian-item-space {
+    background-color: #ebebeb;
+    width: 100%;
+    height: 32px;
+    line-height: 32px;
+    font-size: 14px;
+    color: #8e8e8e;
+}
+
+.jian-item-title {
+    margin: 15px 15px 15px 15px;
+}
+
+.jian-item-title-font {
+    font-size: 17px;
+    color: #2b2e30;
+}
+
+.jian-item-content {
+    margin-top: 12px;
+    line-height: 14px;
+}
+
+.jian-item-content-img {
+    vertical-align: text-bottom;
+    height: 18px;
+    width: 18px;
+}
+
+.jian-item-content-fontyahei {
+    font-size: 12px;
+    color: #8e8e8e;
+    margin-left: 4px;
+}
+
+.jian-item-content-hidden {
+    display: block; /*内联对象需加*/
+    word-break: keep-all; /* 不换行 */
+    white-space: nowrap; /* 不换行 */
+    overflow: hidden; /* 内容超出宽度时隐藏超出部分的内容 */
+    text-overflow: ellipsis; /* 当对象内文本溢出时显示省略标记(...) ；需与overflow:hidden;一起使用。*/
+
+    background-color: rgba(255, 150, 0, 0.1);
+    font-size: 12px;
+    color: #8e8e8e;
+    line-height: 25px;
+    width: 100%;
+
+    /*border: 1px solid #8e8e8e;*/
+    text-align: center;
+}
+
+.jian-item-content-fontxinzi {
+    /*margin-top: 6px;*/
+    line-height: 18px;
+    font-size: 12px;
+    font-weight: bold;
+    color: #ff9600;
+}
+
+.jian-item-me {
+    height: 60px;
+    margin-top: 28px;
+    margin-left: 15px;
+    margin-right: 15px;
+    line-height: 30px;
+}
+
+.jian-item-me-img {
+    height: 30px;
+    width: 30px;
+    vertical-align: middle;
+    border-radius: 50%;
+    background-color: #000000;
+}
+
+.jian-item-me-fontname {
+    font-size: 12px;
+    color: #000000;
+    margin-left: 6px;
+    line-height: 31px;
+
+}
+
+.jian-item-me-zhiwei {
+    font-size: 12px;
+    color: #ff9600;
+    border: 1px solid #ff9604;
+    text-align: center;
+    padding: 0 6px;
+}
+
+.jian-item-me-company {
+    font-size: 12px;
+    color: #8e8e8e;
+    line-height: 34px;
+    text-align: center;
+    /*width: 100%;*/
+    /*margin-left: -12px;*/
+    display: block;
+    word-break: keep-all;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.jian-tabbar-item {
+    width: 40px;
+    height: 40px;
+    margin: 4px auto
+}
+
+.jian-tabbar-xingqu {
+    width: 100%;
+    height: 48px;
+    text-align: center;
+    font-size: 18px;
+    color: #ff9600;
+    line-height: 48px;
+}
+
+.jian-tabbar-friend {
+    width: 100%;
+    height: 48px;
+    text-align: center;
+    font-size: 18px;
+    color: #ffffff;
+    background-color: #00a8ff;
+    line-height: 48px;
+}
+
+.jian-erweima {
+    position: absolute;
+    right: 0;
+    bottom: 48px;
+    height: 160px;
+    width: 140px;
+}
+
+/*//增加了一些删格*/
+/*.weui-row.weui-no-gutter .weui-col-33 {*/
+/*width: 33%;*/
+/*}*/
+/*.weui-row.weui-no-gutter .weui-col-23 {*/
+/*width: 23%;*/
+/*}*/
+/*.weui-row.weui-no-gutter .weui-col-22 {*/
+/*width: 22%;*/
+/*}*/
+/*.weui-row.weui-no-gutter .weui-col-21{*/
+/*width: 21%;*/
+/*}*/
+/*.weui-row.weui-no-gutter .weui-col-35 {*/
+/*width: 35%;*/
+/*}*/
+

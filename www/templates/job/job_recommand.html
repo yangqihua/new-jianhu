@@ -1,0 +1,395 @@
+{% extends 'base/base.html' %}
+{% block parent_css %}
+    <link rel="stylesheet" href="http://res.jian-hu.cn/static/dist/css/app-recommand.css">
+{% endblock %}
+{% block header %}
+    <div class="jian-header-middle">
+        写推荐信
+    </div>
+{% endblock %}
+{% block header_right %}
+{% endblock %}
+
+{% block content %}
+
+
+    <div class="weui_tab_bd" style="margin-top: -42px;padding-top: 87px">
+
+        <div class="jian-item-title">
+            <div class="jian-item-title-font">
+                {{ company_name }}{{ job_title }}（{{ job_city }}）
+            </div>
+
+            <div class="jian-item-content"
+                 style="display: flex;flex-wrap: nowrap;justify-content:space-between;">
+                <div>
+                    <img class="jian-item-content-img"
+                         src="http://res.jian-hu.cn/static/img/icn_place@2x.png"><font
+                        class="jian-item-content-fontyahei">{{ job_addr }}</font>
+                </div>
+                <div>
+                    <img src="http://res.jian-hu.cn/static/img/icn_time@2x.png"
+                         class="jian-item-content-img"><font
+                        class="jian-item-content-fontyahei">{{ work_experience }}</font>
+                </div>
+                <div>
+                    <img src="http://res.jian-hu.cn/static/img/icn_xueli@2x.png"
+                         class="jian-item-content-img"><font
+                        class="jian-item-content-fontyahei">{{ education }}</font>
+                </div>
+                <div>
+                    <div class="jian-item-content-fontxinzi" style="float: right">￥{{ salary }}</div>
+                </div>
+            </div>
+
+            <div class="jian-item-me" style="display: flex;flex-wrap: nowrap;justify-content:space-between;">
+                <div>
+                    <img src="http://res.jian-hu.cn/static/img/fabuzhe@2x.png" class="jian-item-content-img">
+                    <font class="jian-item-me-fontname">职位发布者</font>
+
+                </div>
+
+                <div class="jian-item-me-fontcompany">{{ user_company }}</div>
+
+                <div id="jian-portrait" style="position: relative;">
+                        <img src="{{ portrait }}" class="jian-item-me-img">
+                        <font class="jian-item-me-fontname">{{ username }}</font>
+                        <img src="http://res.jian-hu.cn/static/img/v@2x.png" style="display:{{ vip_display |safe| default:"none" }};position: absolute;top: 16px;left: 12px;width: 20px;height: 20px;">
+                    </div>
+            </div>
+
+        </div>
+        <!-- item-end -->
+
+        <div class="jian-item-space"></div>
+        <div style="margin: 15px;">
+            <div class="jian-luyin-label">
+                <span style="color:#ff9600;">Step 1：</span>向<span style="color:#ff9600;">{{ username }}</span>描述下您的这位(群)"好友"吧
+            </div>
+
+            <div class="jian-luyin-yilu" id="yilu_label1">
+                点击即录音，最多60秒
+            </div>
+
+            <div class="weui-row weui-no-gutter">
+                <div class="weui-col-33">
+                    <div class="jian-luyin-start" id="luyin-stop1">
+
+                    </div>
+                </div>
+                <div class="weui-col-33">
+                    <div class="jian-luyin-btn">
+                        <img src="http://res.jian-hu.cn/static/img/luyin@2x.png" class="jian-luyin-img"
+                             id="start_luyin1">
+                    </div>
+                </div>
+                <div class=" weui-col-33 chonglu1" id="chonglu1">
+
+                </div>
+            </div>
+        </div>
+        <!-- <div class="jian-item-space"></div> -->
+
+        <!-- item-end -->
+
+        <div class="jian-item-space"></div>
+        <div style="margin: 15px;">
+            <div class="jian-luyin-label">
+                <span style="color:#ff9600;">Step 2：</span>给拟<span style="color:#ff9600;">推荐好友</span>或微信群、朋友圈介绍下{{ username }}及职位吧！
+            </div>
+
+            <div class="jian-luyin-yilu" id="yilu_label2">
+                点击即录音，最多60秒
+            </div>
+
+            <div class="weui-row weui-no-gutter">
+                <div class="weui-col-33">
+                    <div class="jian-luyin-start" id="luyin-stop2">
+
+                    </div>
+                </div>
+                <div class="weui-col-33">
+                    <div class="jian-luyin-btn">
+                        <img src="http://res.jian-hu.cn/static/img/luyin@2x.png" class="jian-luyin-img"
+                             id="start_luyin2">
+                    </div>
+                </div>
+                <div class=" weui-col-33 chonglu2" id="chonglu2">
+
+                </div>
+            </div>
+        </div>
+        <!-- <div class="jian-item-space"></div> -->
+
+    </div>
+
+    <form action="/job/post_recommand_job?job_uuid={{ uuid | safe }}&last_share_uuid={{last_share_uuid |safe }}" method="post" id="recommand_form">
+        {% csrf_token %}
+        <input type="hidden" name="audio_for_zg" id="audio_for_zg">
+        <input type="hidden" name="audio_for_zg_length" id="audio_for_zg_length">
+        <input type="hidden" name="audio_for_qlm" id="audio_for_qlm">
+        <input type="hidden" name="audio_for_qlm_length" id="audio_for_qlm_length">
+    </form>
+{% endblock %}
+
+{% block footer %}
+
+    <div class="weui_tabbar">
+        <a href="javascript:;" class="jian-fasong-btn weui_tabbar_item" style="padding-top: 0;">
+            <div class="jian-tabbar-fabu">
+                <span style="margin-top: 14px;">发送并下一步</span>
+            </div>
+        </a>
+
+    </div>
+{% endblock %}
+{% block parent_script %}
+    <script src="http://res.jian-hu.cn/static/dist/js/app-recommand.js"></script>
+    {% include "public/modal.html" %}
+    <script src="http://res.jian-hu.cn/static/dist/js/app-public.js"></script>
+{% endblock %}
+
+{% block jsApiList %}
+    'startRecord',
+    'stopRecord',
+    'onVoiceRecordEnd',
+    'playVoice',
+    'pauseVoice',
+    'stopVoice',
+    'onVoicePlayEnd',
+    'uploadVoice'
+{% endblock %}
+
+{% block jsApiReady %}
+{#    <script type="text/javascript">#}
+        //第一个和第二个公共变量
+        var is_recording = false;
+        var is_playing = false;
+
+        var localId1='';
+        //开始录音
+        $('.jian-luyin-btn').on('touchend', '#start_luyin1', function (event) {
+            if (is_recording || is_playing){
+                console.log("正在录音或播放录音")
+                return;
+            }
+            is_recording = true;
+
+            var _this = $(this);
+            start_luyin1_callback(event, _this);
+            wx.startRecord();
+        });
+
+
+        //停止录音
+        $('#luyin-stop1').on('touchend', '#jian-luyin-stop1', function (event) {
+            var _this = $(this);
+            luyin_stop1_callback(event, _this);
+            wx.stopRecord({
+                success: function (res) {
+                    localId1 = res.localId;
+                    is_recording = false;
+                }
+            });
+
+        });
+        //超过一分钟自动停止录音
+        wx.onVoiceRecordEnd({
+            // 录音时间超过一分钟没有停止的时候会执行 complete 回调
+            complete: function (res) {
+                console.log("自动停止");
+                is_recording = false;
+                if(localId1==""){
+                    console.log("第一个录音赋值");
+                    localId1 = res.localId;
+                }else{
+                    console.log("第二个录音赋值");
+                    localId2 = res.localId;
+                }
+            }
+        });
+
+        // 播放录音
+        $('.jian-luyin-btn').on('touchend', '#play_luyin1', function (event) {
+            console.log('is_recording:'+is_recording);
+            console.log('is_playing:'+is_playing);
+            if (is_recording || is_playing){
+                console.log("正在录音huo")
+                return;
+            }
+            is_playing = true;
+
+            var _this = $(this);
+            luyin_paly1_callback(event, _this);
+            wx.playVoice({
+                localId: localId1 // 需要播放的音频的本地ID，由stopRecord接口获得
+            });
+
+            wx.onVoicePlayEnd({
+                success: function (res) {
+                    is_playing = false;
+                    var localId = res.localId; // 返回音频的本地ID
+                }
+            });
+
+        });
+        //停止播放
+        $('#luyin-stop1').on('touchend', '#jian-play-stop1', function (event) {
+
+
+            var _this = $(this);
+            luyin_stop1_callback(event, _this);
+            wx.stopVoice({
+                localId: localId1 // 需要停止的音频的本地ID，由stopRecord接口获得
+            });
+            is_playing = false;
+        });
+        //重录
+        $('#chonglu1').on('touchend', '#luyin-chonglu', function (event) {
+
+            if (is_recording || is_playing){
+                    console.log("正在录音或播放录音")
+                    return;
+            }
+
+            var _this = $(event.target);
+            $.confirm("重录将删除之前的录音", "提示", function () {
+                reset_luyin1();
+                localId1 = "";
+            }, function () {
+                //取消操作
+            });
+        });
+        //第二个
+        var localId2='';
+        //开始录音
+        $('.jian-luyin-btn').on('touchend', '#start_luyin2', function (event) {
+            if (is_recording || is_playing){
+                console.log("正在录音或播放录音")
+                return;
+            }
+            is_recording = true;
+
+            var _this = $(this);
+            start_luyin2_callback(event, _this);
+
+            wx.startRecord();
+
+        });
+        //停止录音
+        $('#luyin-stop2').on('touchend', '#jian-luyin-stop2', function (event) {
+
+            var _this = $(this);
+            luyin_stop2_callback(event, _this);
+            wx.stopRecord({
+                success: function (res) {
+                    localId2 = res.localId;
+                    is_recording = false;
+                }
+            });
+        });
+
+        // 播放录音
+        $('.jian-luyin-btn').on('touchend', '#play_luyin2', function (event) {
+            if (is_recording || is_playing){
+                console.log("正在录音huo")
+                return;
+            }
+            is_playing = true;
+
+            console.log(localId2);
+            var _this = $(this);
+            luyin_paly2_callback(event, _this);
+            wx.playVoice({
+                localId: localId2 // 需要播放的音频的本地ID，由stopRecord接口获得
+            });
+
+            wx.onVoicePlayEnd({
+                success: function (res) {
+                    is_playing = false;
+                    var localId = res.localId; // 返回音频的本地ID
+                }
+            });
+
+        });
+        //停止播放
+        $('#luyin-stop2').on('touchend', '#jian-play-stop2', function (event) {
+            var _this = $(this);
+            luyin_stop2_callback(event, _this);
+            wx.stopVoice({
+                localId: localId2 // 需要停止的音频的本地ID，由stopRecord接口获得
+            });
+            is_playing = false;
+        });
+        //重录
+        $('#chonglu2').on('touchend', '#luyin-chonglu', function (event) {
+
+            if (is_recording || is_playing){
+                console.log("正在录音或播放录音")
+                return;
+            }
+
+            var _this = $(event.target);
+            $.confirm("重录将删除之前的录音", "提示", function () {
+                reset_luyin2();
+                localId2 = "";
+            }, function () {
+                //取消操作
+            });
+        });
+
+        $('.jian-tabbar-fabu').on('touchend', function (event) {
+            if (localId1 == '') {
+                $.toast("请给主公录音",'text');
+                return;
+            }
+            if (localId2 == '') {
+                $.toast("请给千里马录音",'text');
+                return;
+            }
+            var localIds = [localId2, localId1];
+            $.showLoading("正在上传录音...");
+            syncUpload(localIds);
+
+        });
+
+        var syncUpload = function (localIds) {
+            var localId = localIds.pop();
+            wx.uploadVoice({
+                localId: localId,
+                isShowProgressTips: 0,
+                success: function (res) {
+                    //其他对serverId做处理的代码
+                    //$.get('/job/post_res_for_job', {'media_id': res.serverId}, function (data) {
+                        //if (data != "") {
+                            if(localIds.length==1){//说明是localId1主公的录音上传成功并返回
+                                $('#audio_for_zg').val(res.serverId);
+                                $('#audio_for_zg_length').val($('#count1').text());
+                            }
+                            else{
+                                $('#audio_for_qlm').val(res.serverId);
+                                $('#audio_for_qlm_length').val($('#count2').text());
+                            }
+                        //}
+                        if (localIds.length > 0) {
+                            syncUpload(localIds);
+                        } else {
+                            $.hideLoading();
+                            $('#recommand_form').submit();
+                        }
+                    //});
+
+                }
+            });
+        };
+
+        $("#jian-portrait").on('click', function (event) {
+                var user = {{ user_info_map | safe }};
+                console.log(user);
+                openModal(user);
+        });
+
+{#    </script>#}
+
+{% endblock %}
+

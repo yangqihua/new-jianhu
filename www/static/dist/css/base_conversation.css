@@ -1,0 +1,191 @@
+/*jian-item begin*/
+.jian-item-title {
+    padding: 20px 15px 20px 15px;
+    background-color: #ffffff;
+}
+
+.jian-item-title-font {
+    font-size: 17px;
+    color: #2b2e30;
+}
+
+.jian-item-content {
+    margin-top: 10px;
+    line-height: 14px;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+}
+
+.jian-item-content-img {
+    vertical-align: text-bottom;
+    height: 18px;
+    width: 18px;
+}
+
+.jian-item-content-fontyahei {
+    font-size: 12px;
+    color: #8e8e8e;
+    margin-left: 5px;
+}
+
+.jian-item-content-fontxinzi {
+    /*margin-top: 6px;*/
+    line-height: 18px;
+    font-size: 12px;
+    font-weight: bold;
+    color: #ff9600;
+}
+
+.jian-item-me-img {
+    height: 30px;
+    width: 30px;
+    vertical-align: middle;
+    border-radius: 50%;
+    background-color: #000000;
+}
+
+/*jian-item end*/
+
+.jian-item-space {
+    background-color: #ebebeb;
+    width: 100%;
+    height: 10px;
+}
+
+.jian-chat {
+    background-color: #ffffff;
+    margin: 15px 16px;
+    border: 1px solid #ebebeb;
+}
+
+.jian-chat-liuyan {
+    height: 40px;
+    width: 100%;
+    line-height: 40px;
+    border-left: 4px solid #00a8ff;
+    border-bottom: 1px solid #ebebeb;
+}
+
+.jian-chat-item {
+    padding: 12px;
+    border-bottom: 1px solid #ebebeb;
+}
+
+.jian-chat-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.jian-chat-name {
+    font-size: 12px;
+    color: #00a8ff;
+    margin-left: 10px;
+}
+
+.jian-chat-time {
+    font-size: 12px;
+    color: #8e8e8e;
+    margin-right: 8px;
+    text-align: right;
+}
+
+.jian-chat-content {
+    font-size: 14px;
+    margin: 3px 0 0 10px;
+    word-wrap: break-word;
+    word-break: break-all;
+}
+
+.jian-huifu {
+    color: #ffffff;
+    background-color: #00a8ff;
+    text-align: center;
+    line-height: 33px;
+    margin-left: 4px;
+}
+
+.jian-my {
+    /*padding: 6px 30px 10px 30px;*/
+    font-size: 14px;
+    color: #8e8e8e;
+    display: flex;
+    flex-basis: 100%;
+    justify-content: flex-start;
+}
+
+.jina-triangle {
+    width: 0px;
+    height: 0px;
+    border-width: 6px;
+    border-style: solid;
+    border-color: transparent #4dd04a transparent transparent;
+    position: relative;
+    left: -11px;
+    top: 7px;
+}
+
+.jian-my-luyin {
+    width: 200px;
+    background-color: #4dd04a;
+    margin: 7px 8px 7px 12px;
+    border-radius: 5px;
+    position: relative;
+}
+
+/*发送消息input的css*/
+
+.chat-textarea {
+    /*height: 2.5rem;*/
+    background-color: #ffffff;
+    position: fixed;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 100;
+    width: 100%;
+    /*height: 45px;*/
+
+    font-size: 15px;
+    /*padding: 6px 4px;*/
+    /*resize:none;*/
+    /*line-height: 1.4rem;*/
+
+    /*-webkit-user-modify: read-write-plaintext-only;*/
+    /*-moz-user-modify: read-write-plaintext-only;*/
+    /*user-modify: read-write-plaintext-only;*/
+}
+
+.textarea {
+    /*width: 100%; */
+    min-height: 25px;
+    max-height: 300px;
+    /*_height: 120px; */
+    margin-left: auto;
+    margin-right: auto;
+    padding: 3px;
+    outline: 0;
+    border: 1px solid #ebebeb;
+
+    /*line-height: 24px;*/
+    /*padding: 2px;*/
+    word-wrap: break-word;
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    /*ios不可编辑bug*/
+    -webkit-user-select:text;
+
+
+    /*border-color: rgba(82, 168, 236, 0.8);*/
+    /*box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1), 0 0 8px rgba(82, 168, 236, 0.6);*/
+}
+
+.jian-item-vip {
+    position: absolute;
+    top: 16px;
+    left: 12px;
+    width: 22px;
+    height: 22px;
+}

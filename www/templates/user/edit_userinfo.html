@@ -1,0 +1,209 @@
+{% extends "base/base.html" %}
+{% block parent_css %}
+    <style type="text/css">
+        /*edit-userinfo.css*/
+        .jian-form {
+            margin-top: 0px;
+            font-family: 'Microsoft YaHei';
+            overflow-x: hidden;
+        }
+
+        .jian-form-cell {
+            /*margin:0;*/
+            font-size: 16px;
+        }
+
+        .jian-cell-hd {
+            width: 145px;
+        }
+
+        .jian-form-cell:before {
+            /*margin:0;*/
+            left: 0;
+            border-top: 1px solid #ebebeb;
+        }
+
+        .jian-form-cell-body {
+            text-align: right;
+            color: #8e8e8e;
+        }
+
+        .jian-form-skill {
+            color: #2b2e30;
+            line-height: 28px;
+            font-size: 16px;
+            /*font-weight: bold;*/
+        }
+    </style>
+{% endblock %}
+
+{% block header %}
+    <div class="jian-header-middle">
+    </div>
+{% endblock %}
+{% block header_right %}
+{% endblock %}
+{#header end#}
+
+{% block content %}
+    <div class="weui_tab_bd" style="margin-top: 0;padding-top: 45px;background-color: #ebebeb;">
+        <!--内容区-->
+        <div id="content">
+            <!-- form start -->
+            <form id="info_form" method="post" action="/user/post_userinfo">
+                {% csrf_token %}
+                <div class="weui_cells_title">基本信息（必填）</div>
+                <div class="weui_cells weui_cells_form jian-form">
+                    <div class="weui_cell jian-form-cell">
+                        <div class="weui_cell_hd jian-cell-hd"><label class="weui_label">真实姓名</label></div>
+                        <div class="weui_cell_bd weui_cell_primary jian-form-cell-body">
+                            <input class="weui_input" maxlength="8" name="real_name" id="real_name" type="text" placeholder="请输入真实姓名">
+                        </div>
+                    </div>
+
+                    <div class="weui_cell jian-form-cell">
+                        <div class="weui_cell_hd jian-cell-hd"><label class="weui_label">手机号码</label></div>
+                        <div class="weui_cell_bd weui_cell_primary jian-form-cell-body">
+                            <input class="weui_input" maxlength="16" name="phone" id="phone" type="text" placeholder="请输入电话号码">
+                        </div>
+                    </div>
+
+                    <div class="weui_cell jian-form-cell">
+                        <div class="weui_cell_hd jian-cell-hd"><label class="weui_label">所在公司</label></div>
+                        <div class="weui_cell_bd weui_cell_primary jian-form-cell-body">
+                            <input maxlength="10" class="weui_input" name="company_name" id="company_name" type="text"
+                                   placeholder="请输入所在公司">
+                        </div>
+                    </div>
+                    <div class="weui_cell jian-form-cell">
+                        <div class="weui_cell_hd jian-cell-hd"><label class="weui_label">现任职位</label></div>
+                        <div class="weui_cell_bd weui_cell_primary jian-form-cell-body">
+                            <input maxlength="10" class="weui_input" name="title" id="user_title" type="text" placeholder="请输入现任职位">
+                        </div>
+                    </div>
+
+                    <div class="weui_cell weui_cell_select jian-form-cell" style="padding: 15px;10px;">
+                        <div class="weui_cell_hd" style="width: 145px;">
+                            <label class="weui_label">所在城市</label></div>
+                        <div class="weui_cell_bd weui_cell_primary jian-form-cell-body">
+                            <input class="weui_input" name="user_addr" type="text" id='city-picker'
+                                   value="北京 北京市 东城区 "/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="weui_cells_title">微简历（可选填）</div>
+                <div class="weui_cells weui_cells_form">
+                    <div class="weui_cell">
+                        <div class="weui_cell_bd weui_cell_primary">
+                            <textarea rows="5" name="jianli" class="weui_textarea" id="jianli"
+                                      style="color: #8e8e8e;font-size: 13px;"
+                                      placeholder="主要技能，主要业绩，工作经历，教育背景等" rows="3"></textarea>
+
+                            <div class="weui_textarea_counter"><span id="jianli_count">0</span>/140</div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <!-- form-end -->
+
+            <div style="margin: 40px 15px">
+                <div id="info_submit"
+                     style="text-align: center;font-size: 18px;color: #ffffff;background-color: #00a8ff;margin: 10px auto;padding: 8px;border-radius: 4px;">
+                    提交
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
+
+{% block parent_script %}
+    <script src="http://res.jian-hu.cn/static/jquery-weui/dist/js/city-picker.js"></script>
+    <script type="text/javascript">
+        var info = {{ info | safe }};
+        var user_info_map = {{ user_info_map | safe }};
+
+        $('.jian-header-middle').text(info.title);
+
+        $('#real_name').val(user_info_map.nick);
+        $('#city-picker').val(user_info_map.user_province + " " + user_info_map.user_city + " " + user_info_map.user_district);
+        $('#company_name').val(user_info_map.user_company);
+        $('#user_title').val(user_info_map.user_title);
+        $('#phone').val('{{ phone_number | safe }}');
+        $('#jianli').val(user_info_map.user_desc);
+        $('#jianli_count').text($('#jianli').val().length);
+
+        $('#jianli').bind('input propertychange', function () {
+            if (this.value.length > 140) {
+                this.value = this.value.substr(0, 140);
+                $('#jianli_count').css('color', 'red');
+            } else {
+                $('#jianli_count').css('color', '#b2b2b2');
+            }
+            $('#jianli_count').text($(this).val().length);
+        });
+
+
+        $('#info_submit').on('click', function (event) {
+            if (get_str_length($('#real_name').val())<=0||get_str_length($('#real_name').val())>16) {
+                $.alert("姓名不能为空且不超过16个字符");
+                return;
+            }
+            if (get_str_length($('#company_name').val())<=0||get_str_length($('#company_name').val())>20) {
+                $.alert("公司名不能为空且不超过20个字符");
+                return;
+            }
+            if (get_str_length($('#user_title').val())<=0||get_str_length($('#user_title').val())>16) {
+                $.alert("职位名称不能为空且不超过16个字符");
+                return;
+            }
+            if (get_str_length($('#phone').val())<=0||get_str_length($('#phone').val())>16) {
+                $.alert("手机号码不能为空且不超过16个字符");
+                return;
+            }
+            $('#info_form').submit();
+        });
+
+        // edit-user.info.js
+        $("#city-picker").cityPicker({
+            showDistrict: true
+
+        });
+
+        function get_str_length(val) {
+            var byteValLen = 0;
+            for (var i = 0; i < val.length; i++) {
+                if (val[i].match(/[^\x00-\xff]/ig) != null)
+                    byteValLen += 2;
+                else
+                    byteValLen += 1;
+            }
+            return byteValLen;
+        }
+
+        function my_sub_str(str, len) {
+            var sub_str = "";
+            for (var i = 0; i < str.length; i++) {
+                if (len <= 0)
+                    break;
+                if (str[i].match(/[^\x00-\xff]/ig) != null) { //是汉字
+                    if (len <= 1)
+                        break;
+                    sub_str += str[i];
+                    len -= 2;
+
+                }
+                else {
+                    sub_str += str[i];
+                    len -= 1;
+                }
+            }
+            return sub_str;
+        }
+
+    </script>
+{% endblock %}

@@ -1,0 +1,76 @@
+<style>
+    #recommend_items {
+        color: #898989;
+        line-height: 30px;
+        font-size: 15px;
+    }
+
+    .recommend_item {
+        padding: 5px 15px;
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: space-between;
+        border-bottom: 1px solid #ebebeb;
+    }
+
+    .new_recommend {
+        padding: 1px 4px;
+        background-color: #ffb0af;
+        color: #ffffff;
+        border: 1px solid #fe7c7c;
+        font-size: 11px;
+    }
+
+    .recommend_back {
+        width: 22px;
+        height: 22px;
+        padding: 5px 0px 5px 4px;
+    }
+</style>
+
+<div class="sidebar" id="sidebar" style="display:none;background-color: #ffffff;overflow-y: auto;">
+    <div class="sidebar-content" id="sidebar-content">
+        <div style="border-bottom: 1px solid #ebebeb;padding: 12px 15px;">
+            <div style="font-size: 15px;" id="recommend_job_title">
+                正在加载...
+            </div>
+            <div style="font-size: 13px;color: #898989;margin-top: 4px;">
+                总共<span style="color:#ff9600" id="recommend_count">0</span>次推荐
+            </div>
+        </div>
+
+        <div id="recommend_items">
+            <div class="recommend_item">
+                <div style="flex: 1;" id="recommend_time"></div>
+                <div>
+                    <span class="new_recommend"></span>
+                </div>
+                <div class="recommend_back">
+                    <img src="http://res.jian-hu.cn/static/img/title_back@2x.png" style="width: 100%;height: 100%;">
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script src="http://res.jian-hu.cn/static/dist/js/simpler-sidebar.js"></script>
+<script>
+    function init_sidebar(item) {
+        $("#sidebar").css('display', 'block');
+        $("#sidebar").simplerSidebar({
+            opener: item,
+            sidebar: {
+                align: 'right'
+            }
+        });
+    }
+
+    $("#recommend_items").on('touchstart','.recommend_item',function(event){
+        var recommend_id = $(this).attr("id");
+        var recommend_name = $(this).attr("name");
+        location.href = "/user/recommand_detail?recommend_uuid="+recommend_id+"&last_share_uuid="+recommend_name;
+    });
+</script>
+</body>
+</html>

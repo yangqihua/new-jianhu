@@ -1,0 +1,75 @@
+{% extends 'base/base_detail.html' %}
+
+{% block css %}
+    <style type="text/css">
+        .weui_tabbar {
+            z-index: 1001;
+        }
+    </style>
+{% endblock %}
+
+{% block header_right %}
+    <a href="javascript:;" id="recommand">
+        <div class="jian-header-right">
+            <span id="recommand_text">推荐好友</span>
+        </div>
+    </a>
+{% endblock %}
+
+
+{% block script %}
+    <script type="text/javascript">
+
+        var post_success = '{{ post_success|safe }}';
+        if (post_success == '1') {  //非空显示发布成功
+            $('.jian-header-left').attr('href', '/index');
+            openPostJobSuccessModal('http://res.jian-hu.cn/static/img/feiji@2x.png', "发布成功！", '<span style="color:#ff9600;">点击右上角</span>，发给现同事、前同事、老同学、好朋友、微信群、朋友圈，求推荐吧！');
+        }
+
+        $('#edit_job_text').text('编辑职位');
+        $('#edit_job_text').on('touchend',function(event){
+            location.href = "/job/fabu_job?job_uuid="+uuid;
+        });
+
+        var is_valid = '{{ is_valid|safe }}';
+        var valid = '1';
+        if (is_valid == 'False')
+            valid = 0;
+        if (valid == '1') {
+            closeZhezhao();
+            $('#toggle_job_text').text('关闭职位');
+            $('#edit_job').show();
+            $('#recommand_text').show();
+        } else {
+            openZhezhao();
+            $('#toggle_job_text').text('开启职位');
+            $('#edit_job').hide();
+            $('#recommand_text').hide();
+        }
+
+        $("#recommand_text").on('touchend', function (event) {
+            location.href = "/job/recommand_job?job_uuid="+uuid+"&last_share_uuid=00000000000000000000000000000000";
+        });
+
+        $('#toggle_job').on('click', function (event) {
+            var job_uuid = uuid;
+
+            $.showLoading("正在加载...");
+            $.post('/user/ajax_toggle_job', {'is_valid': valid, 'job_uuid': job_uuid}, function (data) {
+                $.hideLoading();
+                valid = data.valid;
+                if (valid == '1') {
+                    closeZhezhao();
+                    $('#toggle_job_text').text('关闭职位');
+                    $('#edit_job').show();
+                    $('#recommand_text').show();
+                } else {
+                    openZhezhao();
+                    $('#toggle_job_text').text('开启职位');
+                    $('#edit_job').hide();
+                    $('#recommand_text').hide();
+                }
+            });
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,289 @@
+{% extends "base/base.html" %}
+{% block parent_css %}
+    <link rel="stylesheet" href="http://res.jian-hu.cn/static/dist/css/app-fabu.css">
+{% endblock %}
+
+{% block header %}
+    <div class="jian-header-middle">
+        发布职位
+    </div>
+{% endblock %}
+{% block header_right %}
+{% endblock %}
+
+{% block content %}
+
+
+    <div class="weui_tab_bd" style="margin-top: 0;padding-top: 45px">
+    <div class="jian-item-space"></div>
+
+    <!-- form start -->
+    <form action="/job/post_job" method="post" class="myform">
+        {% csrf_token %}
+        <div class="weui_cells weui_cells_form jian-form">
+            <div class="weui_cell jian-form-cell">
+                <div class="weui_cell_hd jian-cell-hd"><label class="weui_label">项目名称</label></div>
+                <div class="weui_cell_bd weui_cell_primary jian-form-cell-body">
+                    <input class="weui_input" id="company_name" type="text" name="company_name" maxlength="10"
+                           placeholder="如研发部或手游项目">
+                </div>
+            </div>
+            <div class="weui_cell jian-form-cell">
+                <div class="weui_cell_hd jian-cell-hd"><label class="weui_label">职位名称</label></div>
+                <div class="weui_cell_bd weui_cell_primary jian-form-cell-body">
+                    <input class="weui_input" id="job_title" maxlength="10" type="text" name="job_title"
+                           placeholder="如高级Java工程师">
+                </div>
+            </div>
+
+            <div class="weui_cell weui_cell_select jian-form-cell" style="padding-left: 15px;">
+                <div class="weui_cell_hd" style="width: 145px;"><label class="weui_label">工作经验</label></div>
+                <div class="weui_cell_bd weui_cell_primary jian-form-cell-body">
+                    <select class="weui_select" id="job_experience" name="work_experience"
+                            style="padding-left: 0;color: #8e8e8e;">
+                        <option value="不限">不限</option>
+                        <option value="1-2 年">1-2 年</option>
+                        <option value="3-5 年">3-5 年</option>
+                        <option value="6-10 年">6-10 年</option>
+                        <option value="10 年以上">10 年以上</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="weui_cell weui_cell_select jian-form-cell" style="padding-left: 15px;">
+                <div class="weui_cell_hd" style="width: 145px;"><label class="weui_label">薪资范围</label></div>
+                <div class="weui_cell_bd weui_cell_primary jian-form-cell-body">
+                    <select class="weui_select" id="job_salary" name="salary" style="padding-left: 0;color: #8e8e8e;">
+                        <option selected="selected" value="0-3k">0-3k</option>
+                        <option value="3k-5k">3k-5k</option>
+                        <option value="5k-10k">5k-10k</option>
+                        <option value="10k-15k">10k-15k</option>
+                        <option value="15k-25k">15k-25k</option>
+                        <option value="25k以上">25k以上</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="weui_cell weui_cell_select jian-form-cell" style="padding-left: 15px;">
+                <div class="weui_cell_hd" style="width: 145px;"><label class="weui_label">学历</label></div>
+                <div class="weui_cell_bd weui_cell_primary jian-form-cell-body">
+                    <select class="weui_select" id="job_education" name="education"
+                            style="padding-left: 0;color: #8e8e8e;">
+                        <option selected="true" value="不限">不限</option>
+                        <option value="专科">专科</option>
+                        <option value="本科">本科</option>
+                        <option value="硕士">硕士</option>
+                        <option value="博士">博士</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="weui_cell weui_cell_select jian-form-cell" style="padding: 15px;10px;">
+                <div class="weui_cell_hd" style="width: 145px;">
+                    <label class="weui_label">工作城市</label></div>
+                <div class="weui_cell_bd weui_cell_primary jian-form-cell-body">
+                    <input class="weui_input" name="job_addr" type="text" id='city-picker' value="北京 北京 朝阳区"/>
+                </div>
+            </div>
+
+            <div class="jian-item-space"></div>
+
+            <div class="" style="padding:15px;">
+                <div class="weui-row" style="margin-bottom: 12px;">
+                    <div class="jian-form-skill" style="">
+                        技能要求<span style="color:#8e8e8e;font-size:12px;">（最多6项，每项最多16个字符）</span>
+                    </div>
+                </div>
+
+                <div class="weui-row weui-no-gutter" style="margin-right: -8px; ">
+                    <div class="weui-col-33" style="padding: 8px 10px 0 0;position: relative;">
+                        <div class="jian-form-edit jian-add-skill" id="1">
+                            <img src="http://res.jian-hu.cn/static/img/add@2x.png" height="16px">
+                        </div>
+                    </div>
+
+                    <div class="weui-col-33" style="padding: 8px 10px 0 0;position: relative;">
+                        <div id="2">
+                        </div>
+                    </div>
+
+                    <div class="weui-col-33" style="padding: 8px 10px 0 0;position: relative;">
+                        <div id="3">
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="weui-row weui-no-gutter" style="margin: 10px -8px 0 0; ">
+                    <div class="weui-col-33" style="padding: 8px 10px 0 0;position: relative;">
+                        <div id="4">
+                        </div>
+                    </div>
+
+                    <div class="weui-col-33" style="padding: 8px 10px 0 0;position: relative;">
+                        <div id="5">
+                        </div>
+
+                    </div>
+
+                    <div class="weui-col-33" style="padding: 8px 10px 0 0;position: relative;">
+                        <div id="6">
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+            <input type="hidden" class="skill1" name="skill1">
+            <input type="hidden" class="skill2" name="skill2">
+            <input type="hidden" class="skill3" name="skill3">
+            <input type="hidden" class="skill4" name="skill4">
+            <input type="hidden" class="skill5" name="skill5">
+            <input type="hidden" class="skill6" name="skill6">
+
+            <div class="jian-item-space"></div>
+            <!-- upload-img start 2016-7-21 22:27:34 in Pearl`s Hill of Singapore -->
+
+            <div class="weui_cell_bd" style="padding:15px;">
+                <div class="jian-upload-label">
+                    <div class="weui_uploader_hd weui_cell">
+                        <div class="weui_cell_bd" style="font-size: 16px;line-height: 28px;margin-bottom: 10px;">
+                            雇主品牌图文展示<span style="color:#8e8e8e;font-size:12px;">（如：发展历史，企业文化，办公环境，薪酬福利，晋升发展，产品截图等等；最多6张）</span>
+                        </div>
+                    </div>
+                    <div style="">
+                    </div>
+                </div>
+                <div class="weui-row" style="overflow: hidden;">
+                    <div class="weui-col-33 imgdiv" id="imgdiv1" style="margin-left: 0px;">
+                        <div class="weui_uploader_input_wrp" style="margin:0">
+                            <div class="weui_uploader_input">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="weui-col-33 imgdiv" id="imgdiv2">
+                    </div>
+                    <div class="weui-col-33 imgdiv" id="imgdiv3">
+                    </div>
+                </div>
+
+                <div class="weui-row" style="overflow: hidden;margin-top: 10px;">
+                    <div class="weui-col-33 imgdiv" id="imgdiv4" style="margin-left: 0px;">
+                    </div>
+                    <div class="weui-col-33 imgdiv" id="imgdiv5">
+                    </div>
+                    <div class="weui-col-33 imgdiv" id="imgdiv6">
+                    </div>
+                </div>
+            </div>
+
+            <!-- upload-img end 2016-7-21 22:27:34 in Pearl`s Hill of Singapore -->
+            <input type="hidden" class="img_url1" name="img_url1">
+            <input type="hidden" class="img_url2" name="img_url2">
+            <input type="hidden" class="img_url3" name="img_url3">
+            <input type="hidden" class="img_url4" name="img_url4">
+            <input type="hidden" class="img_url5" name="img_url5">
+            <input type="hidden" class="img_url6" name="img_url6">
+
+
+            <input type="hidden" class="job_uuid" name="job_uuid" value="{{ job_uuid | safe }}">
+
+        </div>
+    </form>
+
+    <!-- form end -->
+{% endblock %}
+
+{% block footer %}
+
+    {#    <div class="weui_tabbar">#}
+
+    <a href="#" class="jian-fabu-btn" style="padding-top: 0;">
+        <div class="jian-tabbar-fabu">
+            <span style="margin-top: 14px;">确认发布</span>
+        </div>
+    </a>
+
+    {#    </div>#}
+{% endblock %}
+
+
+{% block parent_script %}
+    <script src="http://res.jian-hu.cn/static/jquery-weui/dist/js/city-picker.js"></script>
+    <script src="http://res.jian-hu.cn/static/dist/js/app-fabu.js"></script>
+    <script type="text/javascript">
+        var is_new = {{ is_new | safe }};
+        var own_job = {{ own_job | safe }};
+        if (!$.isEmptyObject(own_job) && is_new == '0') {
+            $("#company_name").val(own_job.job_company);
+            $("#job_title").val(own_job.job_title);
+            $("#job_addr").val(own_job.job_addr);
+            $("#city-picker").val(own_job.job_addr);
+            $("#job_experience").find("option[value='" + own_job.job_experience + "']").attr("selected", "selected");
+            $("#job_salary").find("option[value='" + own_job.job_salary + "']").attr("selected", "selected");
+            $("#job_education").find("option[value='" + own_job.job_education + "']").attr("selected", "selected");
+
+            if (own_job.job_skill != "") {
+                var skills = own_job.job_skill.split(",");
+                for (var i = 0; i < skills.length; i++) {
+                    add_skill($('.jian-add-skill'), skills[i]);
+                }
+            }
+
+            if (own_job.job_img != "") {
+                var pics = own_job.job_img.split(",");
+                for (var i = 0; i < pics.length; i++) {
+                    {#                    pics[i] = "fa3370f1b5824c8c82dc98a28857af9e";#}
+                    addImg($('.weui_uploader_input'), "http://ugcres.oss-cn-shanghai.aliyuncs.com/" + pics[i], pics[i]);
+                }
+            }
+        }
+    </script>
+{% endblock %}
+
+{% block jsApiList %}
+    'chooseImage', 'uploadImage',
+{% endblock %}
+{% block jsApiReady %}
+    {#    <script type="text/javascript">#}
+    $(".weui-row").on('click', '.weui_uploader_input', function (event) {
+    var _this = $(event.target);
+    var id = _this.parent().parent().attr('id').substring(6, 7);
+    wx.chooseImage({
+    count: 7-id, // 默认9
+    sizeType: ['compressed'], // 可以指定是原图还是压缩图，默认二者都有
+    sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+    success: function (res) {
+    var localIds = res.localIds.reverse();
+    $.showLoading("正在上传...");
+    syncUpload(localIds);
+    }
+    });
+    });
+
+    var syncUpload = function (localIds) {
+    var localId = localIds.pop();
+    wx.uploadImage({
+    localId: localId,
+    isShowProgressTips: 0,
+    success: function (res) {
+    //其他对serverId做处理的代码
+    $.get('/job/post_res_for_job', {'media_id': res.serverId}, function (data) {
+    if (data != "") {
+    addImg($('.weui_uploader_input'), "http://ugcres.oss-cn-shanghai.aliyuncs.com/" + data, data);
+    }
+    if (localIds.length > 0) {
+    syncUpload(localIds);
+    }else{
+    $.hideLoading();
+    }
+    });
+
+    }
+    });
+    };
+    {#    </script>#}
+{% endblock %}
+

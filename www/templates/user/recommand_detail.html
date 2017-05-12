@@ -1,0 +1,265 @@
+{% extends "base/base_detail.html" %}
+{% block css %}
+    <style>
+        .jian-my {
+            margin: 0px 0 6px 25px;
+            font-size: 14px;
+            color: #8e8e8e;
+            display: flex;
+            flex-basis: 100%;
+            justify-content: flex-start;
+        }
+
+        .jina-triangle {
+            width: 0px;
+            height: 0px;
+            border-width: 8px;
+            border-style: solid;
+            border-color: transparent #4dd04a transparent transparent;
+            position: relative;
+            left: -14px;
+            top: 8px;
+        }
+
+        .jian-my-luyin {
+            width: 200px;
+            background-color: #4dd04a;
+            margin: 4px 8px 4px 12px;
+            border-radius: 5px;
+            position: relative;
+        }
+    </style>
+{% endblock %}
+
+
+{% block header %}
+    <div class="jian-header-middle">
+        职位详情
+    </div>
+{% endblock %}
+{% block header_right %}
+{% endblock %}
+
+{% block body_css %}
+    style="margin-top: -128px;padding-top: 173px"
+{% endblock %}
+
+
+{% block footer %}
+    <div style="width: 100%;height: 80px;border-top: 1px solid #ebebeb;">
+        <div style="height: 20px;margin: 6px 25px;color: #8e8e8e;display: flex;justify-content: flex-start;flex-grow:0;">
+            <span style="text-align:center;line-height: 20px;font-size: 12px;">
+                伯乐<span style="color: #00a8ff;">{{ bole_name }}</span>语录
+            </span>
+            <span style="flex:1;text-align: right;line-height: 20px;font-size: 12px;">
+                {{ recommend_expire_time |safe}}
+            </span>
+        </div>
+
+        <div class="jian-my">
+            <div id="jian-portrait" style="width:40px;height: 40px;position: relative; ">
+                <img src="{{ bole_portrait | safe }}" width="100%" height="100%"
+                     style="border-radius: 50%;">
+                <img src="http://res.jian-hu.cn/static/img/v@2x.png" style="display:{{ bl_vip_display |safe| default:"none" }};position: absolute;top: 20px;left: 20px;width: 26px;height: 26px;">
+            </div>
+
+            <div class="jian-my-luyin">
+                <div class="jina-triangle"></div>
+                <div style="width: 20px;height: 20px;position: absolute;left: 12px;top: 6px;">
+                    <img id="say" src="http://res.jian-hu.cn/static/img/say@2x.png" width="100%" height="100%"
+                         id="play">
+                </div>
+            </div>
+            <div style="line-height: 40px;" id="audio_length">
+
+            </div>
+        </div>
+    </div>
+
+    <div class="weui_tabbar">
+        <a href="javascript:;" class="weui_tabbar_item" style="padding-top: 0">
+            <div id="toggle_job" style="line-height: 40px;text-align: center;font-size: 17px;color:#ff9600;">
+                给主公
+            </div>
+        </a>
+        <a href="javascript:;" class="weui_tabbar_item" style="padding-top: 0">
+            <div id="edit_job" style="line-height: 40px;text-align: center;font-size: 17px;color:#ff9600;">
+                给千里马
+            </div>
+        </a>
+    </div>
+{% endblock %}
+
+
+{% block back_script %}
+    <script type="text/javascript">
+
+        var bole_user_info_map = {{ bole_user_info_map | safe }};
+        var bole_nick = bole_user_info_map.nick;
+        var bole_portrait = bole_user_info_map.portrait;
+        var bole_title = bole_user_info_map.user_title;
+        var bole_company = bole_user_info_map.user_company;
+        var recommend_uuid = '{{ recommend_uuid | safe }}';
+
+        var job_company = '{{ company_name | safe }}';
+        var job_title = '{{ job_title | safe }}';
+        var last_share_uuid = '{{ last_share_uuid | safe }}'
+
+        var recommend_audio = "";
+
+        $('.jian-erweima').css("bottom","128px");
+
+
+        function qlm_page() {
+            if(recommend_audio != ""){
+                wx.stopVoice({
+                    localId: recommend_audio // 需要停止的音频的本地ID，由stopRecord接口获得
+                });
+                recommend_audio = "";
+                $("#say").attr("src","http://res.jian-hu.cn/static/img/say@2x.png");
+            }
+            $("#edit_job").css({"border-bottom": "8px solid #ff9600", "color": "#ff9600"});
+            $("#toggle_job").css({"border-bottom": "0px solid #ff9600", "color": "#000000"});
+
+            var share_uuid = Math.uuid();
+            $("#audio_length").text('{{ recommend_audio_length_4_qlm |safe }}' + "''");
+            wx.ready(function () {
+                wx.onMenuShareTimeline({
+                    title: bole_company + bole_title + bole_nick + '给你推荐了' + job_company + job_title,
+                    link: 'http://wx.jian-hu.cn/job/post_recommand_job_success?share_to_zg=0&recommend_uuid=' + recommend_uuid+'&last_share_uuid='+share_uuid, // 分享链接
+                    imgUrl: bole_portrait,
+                    success: function () {
+                        $.post("/job/ajax_share",{"share_uuid":share_uuid,"last_share_uuid":'{{ last_share_uuid |safe }}',"recommend_uuid":'{{ recommend_uuid |safe }}'},function(data){
+                            if(data!="ok"){
+                                $.toast("error","text");
+                            }
+                        });
+                    },
+                    cancel: function () {
+                        // 用户取消分享后执行的回调函数
+                    }
+                });
+                wx.onMenuShareAppMessage({
+                    title: '荐乎:一个荐人的神器！',
+                    desc: bole_company + bole_title + bole_nick + '给你推荐了' + job_company + job_title, // 分享描述
+                    link: 'http://wx.jian-hu.cn/job/post_recommand_job_success?share_to_zg=0&recommend_uuid=' + recommend_uuid+'&last_share_uuid='+share_uuid,  // 分享链接
+                    imgUrl: bole_portrait,
+                    type: '', // 分享类型,music、video或link，不填默认为link
+                    dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+                    success: function () {
+                        $.post("/job/ajax_share",{"share_uuid":share_uuid,"last_share_uuid":'{{ last_share_uuid |safe }}',"recommend_uuid":'{{ recommend_uuid |safe }}'},function(data){
+                            if(data!="ok"){
+                                $.toast("error","text");
+                            }
+                        });
+                    },
+                    cancel: function () {
+                        // 用户取消分享后执行的回调函数
+                    }
+                });
+                play_audio('{{ recommend_audio_4_qlm |safe }}');
+            });
+        }
+
+        function zg_page() {
+            if(recommend_audio != ""){
+                wx.stopVoice({
+                    localId: recommend_audio // 需要停止的音频的本地ID，由stopRecord接口获得
+                });
+                recommend_audio = "";
+                $("#say").attr("src","http://res.jian-hu.cn/static/img/say@2x.png");
+            }
+            $("#toggle_job").css({"border-bottom": "8px solid #ff9600", "color": "#ff9600"});
+            $("#edit_job").css({"border-bottom": "0px solid #ff9600", "color": "#000000"});
+            $("#audio_length").text('{{ recommend_audio_length_4_zg |safe }}' + "''");
+
+            wx.ready(function () {
+                wx.onMenuShareTimeline({
+                    title: bole_company + bole_title + bole_nick + '给你推荐了' + job_company + job_title,
+                    link: 'http://wx.jian-hu.cn/job/post_recommand_job_success?share_to_zg=1&recommend_uuid=' + recommend_uuid + "&share_to_zg=1", // 分享链接
+                    imgUrl: bole_portrait,
+                    success: function () {
+                        // 用户确认分享后执行的回调函数
+                    },
+                    cancel: function () {
+                        // 用户取消分享后执行的回调函数
+                    }
+                });
+                wx.onMenuShareAppMessage({
+                    title: '荐乎:一个荐人的神器！',
+                    desc: bole_company + bole_title + bole_nick + '给你推荐了' + job_company + job_title, // 分享描述
+                    link: 'http://wx.jian-hu.cn/job/post_recommand_job_success?share_to_zg=1&recommend_uuid=' + recommend_uuid + "&share_to_zg=1",  // 分享链接
+                    imgUrl: bole_portrait,
+                    type: '', // 分享类型,music、video或link，不填默认为link
+                    dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+                    success: function () {
+                        // 用户确认分享后执行的回调函数
+                    },
+                    cancel: function () {
+                        // 用户取消分享后执行的回调函数
+                    }
+                });
+                play_audio('{{ recommend_audio_4_zg |safe }}');
+            });
+        }
+
+        function play_audio(audio_serverId) {
+            var is_playing = false;
+            wx.downloadVoice({
+                serverId: audio_serverId, // 需要下载的音频的服务器端ID，由uploadVoice接口获得
+                isShowProgressTips: 1, // 默认为1，显示进度提示
+                success: function (res) {
+                    recommend_audio = res.localId; // 返回音频的本地ID
+                    is_playing = false;
+                }
+            });
+
+            $('.jian-my-luyin').on('touchend', function (event) {
+                if (recommend_audio != "" && !is_playing) {
+                    $('#say').attr("src", "http://res.jian-hu.cn/static/img/say@2x.gif");
+                    is_playing = true;
+                    wx.playVoice({
+                        localId: recommend_audio // 需要播放的音频的本地ID，由stopRecord接口获得
+                    });
+                }
+            });
+
+            wx.onVoicePlayEnd({
+                success: function (res) {
+                    var localId = res.localId; // 返回音频的本地ID
+                    is_playing = false;
+                    $('#say').attr("src", "http://res.jian-hu.cn/static/img/say@2x.png");
+                }
+            });
+        }
+
+        zg_page();
+
+        $('#toggle_job').on('touchend', function (event) {
+            zg_page();
+        });
+        $('#edit_job').on('touchend', function (event) {
+            qlm_page();
+        });
+
+{#        $('#bole_portrait').on('click', function (event) {#}
+{#            var user_info_map = {{ bole_user_info_map | safe }};#}
+{#            openModal(user_info_map);#}
+{#        });#}
+
+        $('.jian-my').on('click', "#jian-portrait", function (event) {
+                var user = {{ bole_user_info_map | safe }}
+                openModal(user);
+        });
+
+    </script>
+{% endblock %}
+
+{% block jsApiList %}
+    'downloadVoice',
+    'playVoice',
+    'onVoicePlayEnd',
+    'stopVoice'
+{% endblock %}
+
+

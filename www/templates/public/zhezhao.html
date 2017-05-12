@@ -1,0 +1,33 @@
+
+<style type="text/css">
+    #jian-zhezhao {
+        display: none;
+{#        display: flex;#}
+{#        align-items:center;#}
+{#        justify-content:center;#}
+        position: absolute;
+        top: 0%;
+        left: 0%;
+        width: 100%;
+        height: 100%;
+        /*margin-top: -42px;*/
+        /*padding-top: 87px;*/
+        background-color: black;
+        z-index: 100;
+        -moz-opacity: 0.5;
+        opacity: 0.5;
+        filter: alpha(opacity=80);
+    }
+</style>
+
+<div id="jian-zhezhao">
+    <div style="font-size: 17px;color: #ffffff;">该职位已关闭</div>
+</div>
+<script type="text/javascript">
+    function openZhezhao(){
+        $('#jian-zhezhao').css({'display':'flex','align-items':'center','justify-content':'center'});
+    }
+    function closeZhezhao(){
+        $('#jian-zhezhao').css('display','none');
+    }
+</script>

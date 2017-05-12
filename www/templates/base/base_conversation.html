@@ -1,0 +1,216 @@
+{% extends 'base/base.html' %}
+
+{% block parent_css %}
+    <link rel="stylesheet" href="http://cdn.jian-hu.cn/static/dist/css/base_conversation.css">
+    {% block css %}
+    {% endblock %}
+{% endblock %}
+
+
+{% block header %}
+    <div class="jian-header-middle" style="font-size: 18px;">
+        与{{ des_nick }}的私信
+    </div>
+{% endblock %}
+{% block header_right %}
+{% endblock %}
+
+{% block content %}
+    <div class="weui_tab_bd" style="margin-top: -42px;padding-top: 87px;background-color: #ebebeb;">
+
+        <div class="jian-item-title" id="{{ uuid|safe }}">
+            <div style="display: flex;flex-wrap: nowrap;justify-content:space-between;">
+                <div class="jian-item-title-font">{{ company_name }}{{ job_title }}（{{ job_city }}）</div>
+
+                <div id="jian-portrait" style="width:40px;height: 40px;position: relative; ">
+                    <img src="{{ portrait }}" class="jian-item-me-img">
+                    <img src="http://cdn.jian-hu.cn/static/img/v@2x.png" style="display:{{ vip_display |safe| default:"none" }};" class="jian-item-vip">
+                </div>
+            </div>
+
+            <div class="jian-item-content">
+                <div>
+                    <img class="jian-item-content-img"
+                         src="http://cdn.jian-hu.cn/static/img/icn_place@2x.png"><font
+                        class="jian-item-content-fontyahei">{{ job_addr }}</font>
+                </div>
+                <div>
+                    <img src="http://cdn.jian-hu.cn/static/img/icn_time@2x.png"
+                         class="jian-item-content-img"><font
+                        class="jian-item-content-fontyahei">{{ work_experience }}</font>
+                </div>
+                <div>
+                    <img src="http://cdn.jian-hu.cn/static/img/icn_xueli@2x.png"
+                         class="jian-item-content-img"><font
+                        class="jian-item-content-fontyahei">{{ education }}</font>
+                </div>
+                <div>
+                    <font class="jian-item-content-fontxinzi">￥{{ salary }}</font>
+                </div>
+            </div>
+        </div>
+        <!-- item-end -->
+        {% block yuyin %}
+            <div style="margin: 15px 16px;padding:15px;border: 1px solid #ebebeb;background-color: #ffffff;">
+                <div style="display: flex;flex-wrap: nowrap;justify-content:space-between;margin-bottom: 6px;">
+                    <div>
+                        <div style="float:left;width:40px;text-align:center;font-size: 12px;color: #8e8e8e;">伯乐</div>
+                        <div class="jian-chat-name" style="float:left;">北方的南蛮</div>
+                    </div>
+                    <div class="jian-chat-time">
+                        2013-03-02 13:23
+                    </div>
+                </div>
+
+
+                <div class="jian-my">
+                    <div style="width:40px;height: 40px; ">
+                        <img src="" width="100%" height="100%"
+                             style="border-radius: 50%;">
+                    </div>
+
+                    <div class="jian-my-luyin">
+                        <div class="jina-triangle"></div>
+                        <div style="width: 18px;height: 18px;position: absolute;left: 10px;top: 4px;">
+                            <img src="http://cdn.jian-hu.cn/static/img/say@2x.png" width="100%" height="100%" id="play">
+                        </div>
+                    </div>
+                    <div style="line-height: 40px;">
+                        60''
+                    </div>
+                </div>
+            </div>
+        {% endblock %}
+
+        <!-- chat begin -->
+
+        <div class="jian-chat">
+            <div class="jian-chat-liuyan">
+                <div style="float: left;font-size: 15px;margin: 0 8px;">留言板</div>
+                <div style="float: left;font-size: 12px;color: #ff9600;">（只供双方一对一留言哦，其他人无法查看）</div>
+            </div>
+            <!-- chat item begin -->
+            <!-- chat item end -->
+        </div>
+        <!-- chat end -->
+        <!--滚动加载控件-->
+        <div class="weui-infinite-scroll" id="load-more" style="display: none">
+            <div class="infinite-preloader"></div>
+            正在加载...
+        </div>
+    </div>
+{% endblock %}
+
+{% block footer %}
+    <div class="chat-textarea">
+        <div class="weui-row weui-no-gutter" style="padding: 6px 16px;">
+            <div class="weui-col-80" style="">
+                <div class="textarea" id="mesg" style="-webkit-user-select:text;" contenteditable="true"></div>
+            </div>
+            <div class="weui-col-20">
+                <a href="javascript:;">
+                    <div class="jian-huifu">
+                        回复
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block parent_script %}
+
+    {% include "public/modal.html" %}
+    <script src="http://cdn.jian-hu.cn/static/dist/js/app-public.js"></script>
+    <script type="text/javascript">
+
+        $(".jian-header-left").attr("href","/chat/get_chat_list");
+
+        var conversation_list = {{ conversation_list | safe  }};
+        var user_info_map = {{ user_info_map | safe  }};
+        var chat_user_info_map = {{ chat_user_info_map | safe  }};
+        var be_interested_uuid = '{{ be_interested_uuid | safe  }}';
+
+        for (var i = 0; i < conversation_list.length; i++) {
+            var conversation = conversation_list[i];
+            var jian_item = '<div class="jian-chat-item"><table width="100%"><tr><td rowspan="2" valign="top" width="40px;"><div id="jian-portrait" style="position: relative;"><img src="' + conversation.user_portrait + '" class="jian-chat-img" id="' + conversation.user_uuid + '"><img src="http://cdn.jian-hu.cn/static/img/v@2x.png" style="display:'+conversation.vip_display+';position: absolute;top: 20px;left: 20px;width: 26px;height: 26px;"></div></td><td><div class="jian-chat-name">' + conversation.user_nick + '</div></td><td><div class="jian-chat-time">' + conversation.create_time + '</div></td></tr><tr><td colspan="2"><div class="jian-chat-content">' + conversation.words + '</div></td></tr></table></div>';
+            $(".jian-chat").append(jian_item);
+        }
+
+        $('.jian-huifu').on('click', function (event) {
+            var mesg = $('.textarea').text().trim();
+            if (mesg == '') {
+                $.toast("发送信息不能为空!",'text');
+                return;
+            }
+            if (mesg.length >120) {
+                $.alert("发送信息不能超过120个字！当前字数"+mesg.length);
+                return;
+            }
+            //1.ajax操作发送信息
+            $.showLoading("正在发送...");
+            $.post("/chat/ajax_send_words", {"be_interested_uuid": be_interested_uuid, 'words': mesg}, function (data) {
+                if (data != "") {
+                    //2.更新聊天界面
+                    var conversation = data;
+                    var mesg_dom = '<div class="jian-chat-item"><table width="100%"><tr><td rowspan="2" valign="top" width="40px;"><div id="jian-portrait" style="position: relative;"><img src="' + conversation.user_portrait + '" class="jian-chat-img" id="' + conversation.user_uuid + '"><img src="http://cdn.jian-hu.cn/static/img/v@2x.png" style="display:'+conversation.vip_display+';position: absolute;top: 20px;left: 20px;width: 26px;height: 26px;"></div></td><td><div class="jian-chat-name">' + conversation.user_nick + '</div></td><td><div class="jian-chat-time">' + conversation.create_time + '</div></td></tr><tr><td colspan="2"><div class="jian-chat-content">' + conversation.words + '</div></td></tr></table></div>';
+                    $('.jian-chat-liuyan').after(mesg_dom);
+                    $('.textarea').html('');
+                }
+                $.hideLoading();
+            });
+        });
+
+        var from = conversation_list.length;
+        if (from >= 10) {        //第一页数据大于10才启用滚到加载组件,一页数据为10个
+            $('.weui-infinite-scroll').css('display', 'block');//开始显示正在加载
+            var loading = false;  //状态标记
+            $('.weui_tab_bd').infinite().on("infinite", function () {
+                if (loading) return;
+                loading = true;
+                $.get("/chat/chat_detail", {"from": from, "be_interested_uuid": be_interested_uuid},
+                        function (data) {
+                            var conversation_list = data.conversation_list;
+                            user_info = data.chat_user_info_map;
+                            from = from + conversation_list.length;
+                            if (conversation_list.length < 10) {
+                                $('#load-more').html("∩_∩ 暂无更多消息");
+                                $('.weui_tab_bd').destroyInfinite(); //销毁该组件
+                            }
+                            for (var i = 0; i < conversation_list.length; i++) {
+                                var conversation = conversation_list[i];
+                                var jian_item = '<div class="jian-chat-item"><table width="100%"><tr><td rowspan="2" valign="top" width="40px;"><div id="jian-portrait" style="position: relative;"><img src="' + conversation.user_portrait + '" class="jian-chat-img" id="' + conversation.user_uuid + '"><img src="http://cdn.jian-hu.cn/static/img/v@2x.png" style="display:'+conversation.vip_display+';position: absolute;top: 20px;left: 20px;width: 26px;height: 26px;"></div></td><td><div class="jian-chat-name">' + conversation.user_nick + '</div></td><td><div class="jian-chat-time">' + conversation.create_time + '</div></td></tr><tr><td colspan="2"><div class="jian-chat-content">' + conversation.words + '</div></td></tr></table></div>';
+                                $(".jian-chat").append(jian_item);
+
+                                chat_user_info_map[conversation.user_uuid] = user_info[conversation.user_uuid]
+                            }
+                            loading = false;
+                        });
+            });
+        } else {
+            $('#load-more').html("∩_∩ 暂无更多聊天消息");
+        }
+
+        $('.weui_tab_bd').on('click', ".jian-item-title", function (event) {
+            var _this = $(event.target);
+            var job_uuid = $(this).attr('id');
+            if (_this.hasClass('jian-item-me-img') || _this.hasClass('jian-item-vip')) {
+                var user = user_info_map[job_uuid];
+                openModal(user);
+            } else {
+                location.href = "/job/get_job?job_uuid=" + job_uuid;
+            }
+        });
+
+        $('.jian-chat').on('click', "#jian-portrait", function (event) {
+            var user_uuid = $(this).find(".jian-chat-img").attr('id');
+            var user = chat_user_info_map[user_uuid];
+            openModal(user);
+        });
+
+
+    </script>
+    {% block script %}
+
+    {% endblock %}
+{% endblock %}

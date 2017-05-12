@@ -1,0 +1,64 @@
+html, body {
+    height: 100%;
+    background-color: #fbf9fe;
+    font-family: 'Microsoft YaHei';
+
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+
+}
+
+/*a, button, input, textarea {*/
+/*-webkit-tap-highlight-color: rgba(0, 0, 0, 0);*/
+/*-webkit-user-modify:read-write-plaintext-only;*/
+/*}*/
+
+.jian-header {
+    position: fixed;
+    height: 45px;
+    top: 0;
+    right: 0;
+    left: 0;
+    background-color: #ff9600;
+    z-index: 1002;
+}
+
+.jian-header-middle {
+    width: 100%;
+    height: 45px;
+    text-align: center;
+    font-size: 20px;
+    color: #ffffff;
+    line-height: 45px;
+}
+
+.jian-item-space {
+    background-color: #ebebeb;
+    width: 100%;
+    height: 10px
+}
+
+.jian-header-left {
+    height: 30px;
+    /*width: 30px;*/
+    position: absolute;
+    top: 7px;
+    left: 8px;
+}
+
+.jian-header-right {
+    position: absolute;
+    right: 11px;
+    top: 0;
+    height: 45px;
+    line-height: 45px;
+    font-size: 16px;
+    color: #ffffff;
+}
+
+.jian-tabbar-item {
+    width: 36px;
+    height: 36px;
+    margin: 6px auto
+}

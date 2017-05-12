@@ -1,0 +1,76 @@
+{% extends "base/base.html" %}
+{% block parent_css %}
+    <link rel="stylesheet" href="http://res.jian-hu.cn/static/dist/css/app-mesg.css">
+{% endblock %}
+
+{% block header_left %}
+{% endblock %}
+{% block header %}
+    <div class="jian-header-middle">
+        我的消息
+    </div>
+{% endblock %}
+{% block header_right %}
+{% endblock %}
+{% block content %}
+    <div class="weui_tab_bd" style="margin-top: -42px;padding-top: 87px;background-color: #ebebeb;">
+        <div class="jian-item-space"></div>
+        <div style="background-color: #ffffff;" class="chat_items">
+            <!-- item begin  -->
+            <!-- item end -->
+        </div>
+        <!--滚动加载控件-->
+        <div class="weui-infinite-scroll" id="load-more" style="display: none">
+            <div class="infinite-preloader"></div>
+            正在加载...
+        </div>
+    </div>
+{% endblock %}
+
+{% block tabbar1 %}
+    http://res.jian-hu.cn/static/img/btn_nor_faxian@2x.png
+{% endblock %}
+
+{% block tabbar2 %}
+    http://res.jian-hu.cn/static/img/btn_pre_mesaage@2x.png
+{% endblock %}
+
+{% block parent_script %}
+    <script type="text/javascript">
+        var chat_list = {{ chat_list | safe  }};
+        for (var i = 0; i < chat_list.length; i++) {
+            var chat_info = chat_list[i];
+            var item = '<a href="' + chat_info.go_url + '"><div class="jian-chat-item"><table width="100%" style="table-layout:fixed;"><tr><td rowspan="2" valign="top" width="40px;"><div style="position: relative"><img src="' + chat_info.portrait + '" class="jian-chat-img"><div class="jian-reddot" style="display:' + chat_info.display_css + ';"></div></div><div style="position: absolute;top: 36px;left: 14px;background-color: ' + chat_info.background_color + ';color: #ffffff;width: 40px;height: 14px;font-size: 12px;text-align: center;line-height: 14px;"> ' + chat_info.user_tag + '</div></td><td><div class="jian-chat-name"><div class="last_words"><font style="color: #000000;font-size: 14px;padding-right: 10px;">' + chat_info.nick + '</font>' + chat_info.last_words + '</div> </div></td><td style="width:100px;"><div class="jian-chat-time">' + chat_info.update_time + '</div></td></tr><tr><td colspan="2"><div class="jian-chat-content"><div class="job_title"><font style="color: #8e8e8e;padding-right: 6px;">' + chat_info.hint + '</font>' + chat_info.job_title + '</div> </div></td></tr></table></div></a>';
+            $(".chat_items").append(item);
+        }
+
+
+        var from = chat_list.length;
+        if (from >= 10) {        //第一页数据大于10才启用滚到加载组件,一页数据为10个
+            $('.weui-infinite-scroll').css('display', 'block');//开始显示正在加载
+            var loading = false;  //状态标记
+            $('.weui_tab_bd').infinite().on("infinite", function () {
+                if (loading) return;
+                loading = true;
+                $.get("/chat/get_chat_list", {"from": from},
+                        function (data) {
+                            chat_list = data.chat_list;
+                            from = from + chat_list.length;
+                            if (chat_list.length < 10) {
+                                $('#load-more').html("∩_∩ 暂无更多消息");
+                                $('.weui_tab_bd').destroyInfinite(); //销毁该组件
+                            }
+                            for (var i = 0; i < chat_list.length; i++) {
+                                var chat_info = chat_list[i];
+                                var item = '<a href="' + chat_info.go_url + '"><div class="jian-chat-item"><table width="100%" style="table-layout:fixed;"><tr><td rowspan="2" valign="top" width="40px;"><div style="position: relative"><img src="' + chat_info.portrait + '" class="jian-chat-img"><div class="jian-reddot" style="display:' + chat_info.display_css + ';"></div></div><div style="position: absolute;top: 36px;left: 14px;background-color: ' + chat_info.background_color + ';color: #ffffff;width: 40px;height: 14px;font-size: 12px;text-align: center;line-height: 14px;"> ' + chat_info.user_tag + '</div></td><td><div class="jian-chat-name"><div class="last_words"><font style="color: #000000;font-size: 14px;padding-right: 10px;">' + chat_info.nick + '</font>' + chat_info.last_words + '</div> </div></td><td style="width:100px;"><div class="jian-chat-time">' + chat_info.update_time + '</div></td></tr><tr><td colspan="2"><div class="jian-chat-content"><div class="job_title"><font style="color: #8e8e8e;padding-right: 6px;">' + chat_info.hint + '</font>' + chat_info.job_title + '</div> </div></td></tr></table></div></a>';
+                                $(".chat_items").append(item);
+                            }
+                            loading = false;
+                        });
+            });
+        } else {
+            $('#load-more').html("∩_∩ 暂无更多消息");
+        }
+    </script>
+{% endblock %}
+

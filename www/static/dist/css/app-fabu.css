@@ -1,0 +1,169 @@
+html, body {
+    height: 100%;
+    background-color: #fbf9fe;
+}
+
+.jian-title{
+    position: fixed;
+    height: 45px;
+    top: 0;
+    right: 0;
+    left: 0;
+    background-color: #ff9600;
+}
+.jian-tabbar-item{
+    width: 40px;
+    height:40px;
+    margin: 4px auto
+}
+
+.jian-title-back{
+    height:30px;
+    width:30px;
+    position: absolute;
+    top: 7px;
+    left: 11px;
+}
+.jian-item-space{
+    background-color: #ebebeb; 
+    width:100%;
+    height: 10px;
+}
+
+
+.jian-form{
+    margin-top: 0px;
+    font-family: 'Microsoft YaHei';
+    overflow-x:hidden; 
+}
+.jian-form-cell{
+    /*margin:0;*/
+    font-size: 16px;
+}
+
+.jian-cell-hd{
+    width: 145px;
+}
+
+.jian-form-cell:before{
+    /*margin:0;*/
+    left: 0;
+    border-top:1px solid #ebebeb; 
+}
+
+.jian-form-cell-body{
+    text-align: right;
+    color: #8e8e8e; 
+}
+
+.jian-form-skill{
+    color: #2b2e30;
+    line-height: 28px;
+    font-size: 16px;
+    /*font-weight: bold;*/
+}
+
+.jian-form-edit{
+	padding: 6px 0;
+	border: 1px solid #d5d5d5;
+	text-align: center;
+	font-size: 12px;
+	color: #8e8e8e;
+	width: 100%;
+
+
+    display:block;/*内联对象需加*/ 
+    word-break:keep-all;/* 不换行 */ 
+    white-space:nowrap;/* 不换行 */ 
+    overflow:hidden;/* 内容超出宽度时隐藏超出部分的内容 */ 
+    text-overflow:ellipsis;/* 当对象内文本溢出时显示省略标记(...) ；需与overflow:hidden;一起使用。*/ 
+
+}
+.jian-form-edit-btn{
+    width: 50px;
+    float: right;
+    text-align: center;
+    color: #8e8e8e;
+    border: 1px solid #00bfb4;
+    padding: 2px 4px 1px 4px;
+    margin-left: 8px;
+    margin-top: 3px;
+    font-size: 14px;
+}
+
+.jian-form-cancel-btn{
+    width: 50px;
+    float: right;
+    text-align: center;
+    color: #8e8e8e;
+    border: 1px solid #00bfb4;
+    padding: 2px 4px 1px 4px;
+    margin-left: 8px;
+    margin-top: 3px;
+    font-size: 14px;
+}
+
+.jian-skill-clear{
+    height: 16px;
+    width: 16px;
+    position: absolute;
+    top: 1px;
+    right: 5px;
+    z-index: 50;
+    display: none;
+}
+
+.jian-upload-img{
+    background-image:url(http://shp.qpic.cn/weixinsrc_pic/pScBR7sbqjOBJomcuvVJ6iacVrbMJaoJZkFUIq4nzQZUIqzTKziam7ibg/);
+    background-repeat:no-repeat;
+    /*width: 110px;*/
+    /*height: 110px;*/
+}
+
+.jian-add-skill{
+    width: 100%;
+    height: 16px;
+}
+
+/*.jian-form-select{
+    color: #8e8e8e;
+}*/
+
+
+.jian-tabbar-fabu{
+    width: 100%;
+    height: 48px;
+    text-align: center;
+    font-size: 18px;
+    color: #ffffff;
+    background-color: #00a8ff;
+    line-height: 48px;
+}
+
+.imgdiv{
+    margin-left: 10px;
+    /*padding:8px;*/
+    overflow: hidden;
+    position: relative;
+}
+
+.jian-img-clear{
+    height: 18px;
+    width: 18px;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    z-index: 50;
+    display: none;
+}
+
+
+.jian-upload-label{
+    display:flex;
+    justify-content: space-between;
+}
+
+
+
+
+

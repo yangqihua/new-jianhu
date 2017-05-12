@@ -1,0 +1,13 @@
+.idea/
+settings.py
+*.pyc
+*.xml
+
+www/log/
+
+www/wx_base/config.py
+
+www/.idea/workspace.xml
+www/*.pyc
+jianhu.sublime-project
+jianhu.sublime-workspace

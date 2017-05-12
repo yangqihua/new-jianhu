@@ -1,0 +1,68 @@
+{% extends 'base/base_detail.html' %}
+
+{% block header_right %}
+    <a href="javascript:;" id="collect">
+        <div class="jian-header-right">
+            <span id="collection_text">{{ collection }}</span>
+        </div>
+    </a>
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript">
+        var is_valid = '{{ is_valid|safe }}';
+        var collection_text = '{{ collection|safe }}';
+        var valid = '1';
+        if (is_valid == 'False')
+            valid = 0;
+        if (valid == '1') {
+            closeZhezhao();
+        } else {
+            openZhezhao();
+        }
+
+        $('#edit_job_text').text('推荐好友');
+        $('#toggle_job_text').text('我感兴趣');
+
+        $('#toggle_job').on('touchend', function (event) {
+            var bind_wx = '{{ bind_wx | safe }}';
+            var is_edit = '{{ is_edit | safe }}';
+            
+            if (bind_wx == '1' && is_edit == '1') {
+                location.href = '/chat/interest_job?job_uuid=' + uuid + "&last_share_uuid={{ last_share_uuid|safe }}";
+            } else if (bind_wx == '0' && is_edit == '1') {
+                $.alert("请关注公众号“荐乎”!", "提示", function () {
+            });
+            } else if (bind_wx == '1' && is_edit == '0') {
+                $.alert("请至个人中心完善资料！", "提示", function () {
+                });
+            } else if (bind_wx == '0' && is_edit == '0') {
+                $.alert("请关注公众号“荐乎”并至个人中心完善资料!", "提示", function () {
+                });
+            }
+            
+            });
+        $('#edit_job').on('touchend', function (event) {
+            location.href = '/job/recommand_job?job_uuid=' + uuid + "&last_share_uuid={{ last_share_uuid|safe }}";
+        });
+
+        $('#collect').on('click', function (event) {
+            var job_uuid = uuid
+            var is_collected = 0;
+            if ($('#collection_text').text() == '取消收藏') {
+                is_collected = 1;
+            }
+            $.showLoading("正在加载...");
+            $.post('/job/ajax_collection', {
+                'last_share_uuid':'{{ last_share_uuid|safe }}',
+                'is_collected': is_collected,
+                'job_uuid': job_uuid
+            }, function (data) {
+                $.hideLoading();
+                if (data.status == "ok") {
+                    $('#collection_text').text(data.info);
+                }
+            });
+        });
+    </script>
+{% endblock %}

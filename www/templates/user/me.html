@@ -1,0 +1,138 @@
+{% extends "base/base.html" %}
+{% block parent_css %}
+    <link rel="stylesheet" href="http://res.jian-hu.cn/static/dist/css/app-me.css">
+{% endblock %}
+
+{% block header_left %}
+{% endblock %}
+{% block header %}
+    <div class="jian-header-middle">
+        个人中心
+    </div>
+{% endblock %}
+{% block header_right %}
+{% endblock %}
+
+{% block content %}
+    <div class="weui_tab_bd" style="margin-top: -42px;padding-top: 87px;background-color: #ebebeb;">
+        <div style="padding: 15px;background-color: #ffffff;">
+            <table width="100%" style="table-layout:fixed;">
+                <tr>
+                    <td rowspan="2" width="50px;">
+                        <div id="jian-portrait" style="position: relative;">
+                            <img src="" class="jian-me-img" id="user_portrait">
+                            <img src="http://res.jian-hu.cn/static/img/v@2x.png" style="display:{{ vip_display |safe }};position: absolute;top: 26px;left: 26px;width: 32px;height: 32px;">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="jian-me-name" id="user_name">
+                        </div>
+                    </td>
+                    <td rowspan="2" width="80px" align="right">
+                        <a href="/user/edit_userinfo">
+                            <div class="jian-me-edit-img">
+                                <img src="http://res.jian-hu.cn/static/img/bianji@2x.png"
+                                     style="width:100%;height: 100%;">
+                            </div>
+                            <div class="jian-me-edit-font">
+                                编辑简历
+                            </div>
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="jian-me-from">
+                            <font style="margin-right: 5px;" id="user_company"></font>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="jian-item-space"></div>
+        <a href="/user/fabu_list">
+            <div class="jian-me-item">
+                <div class="weui-row">
+                    <div class="weui-col-50">
+                        <div style="font-size: 15px;">我的发布</div>
+                    </div>
+                    <div class="weui-col-50">
+                        <div style="width: 22px;height: 22px;float: right;">
+                            <img src="http://res.jian-hu.cn/static/img/title_back@2x.png" width="100%" height="100%">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+
+        <a href="/user/recommand_list">
+            <div class="jian-me-item">
+                <div class="weui-row">
+                    <div class="weui-col-50">
+                        <div style="font-size: 15px;">我的推荐</div>
+                    </div>
+                    <div class="weui-col-50">
+                        <div style="width: 22px;height: 22px;float: right;">
+                            <img src="http://res.jian-hu.cn/static/img/title_back@2x.png" width="100%" height="100%">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+
+        <a href="/user/interview_list">
+            <div class="jian-me-item">
+                <div class="weui-row">
+                    <div class="weui-col-50">
+                        <div style="font-size: 15px;">我的应聘</div>
+                    </div>
+                    <div class="weui-col-50">
+                        <div style="width: 22px;height: 22px;float: right;">
+                            <img src="http://res.jian-hu.cn/static/img/title_back@2x.png" width="100%" height="100%">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+
+        <a href="/user/collection_list">
+            <div class="jian-me-item">
+                <div class="weui-row">
+                    <div class="weui-col-50">
+                        <div style="font-size: 15px;">我的收藏</div>
+                    </div>
+                    <div class="weui-col-50">
+                        <div style="width: 22px;height: 22px;float: right;">
+                            <img src="http://res.jian-hu.cn/static/img/title_back@2x.png" width="100%" height="100%">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+{% endblock %}
+
+{% block tabbar1 %}
+    http://res.jian-hu.cn/static/img/btn_nor_faxian@2x.png
+{% endblock %}
+
+{% block tabbar3 %}
+    http://res.jian-hu.cn/static/img/btn_pre_wd@2x.png
+{% endblock %}
+
+{% block parent_script %}
+    {% include "public/modal.html" %}
+    <script src="http://res.jian-hu.cn/static/dist/js/app-public.js"></script>
+    <script type="text/javascript">
+        var user_info_map = {{ user_info_map | safe}};
+        $('#user_name').text(user_info_map.nick);
+        $('#user_company').text(user_info_map.user_company);
+        $('#user_portrait').attr('src', user_info_map.portrait);
+
+        $('#jian-portrait').on('click', function (event) {
+            openModal(user_info_map);
+        });
+    </script>
+{% endblock %}
+

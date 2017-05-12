@@ -1,0 +1,157 @@
+/*jian-item begin*/
+.jian-item-title{
+    margin: 15px 15px 15px 15px;
+}
+
+.jian-item-title-font{
+    font-size: 17px;
+    color: #2b2e30;
+}
+
+.jian-item-content{
+    margin-top: 12px;
+    line-height: 14px;
+}
+
+.jian-item-content-img{
+    vertical-align:text-bottom;
+    height:18px;
+    width:18px;
+}
+
+.jian-item-content-fontyahei{
+    font-size: 12px;
+    color: #8e8e8e;
+    margin-left: 5px;
+}
+
+.jian-item-content-fontxinzi{
+    /*margin-top: 6px;*/
+    line-height: 18px;
+    font-size: 12px;
+    font-weight: bold;
+    color: #ff9600;
+}
+
+.jian-item-me{
+    margin-top: 15px;
+    line-height: 30px
+}
+
+.jian-item-me-img{
+     height:30px;
+     width:30px;
+     vertical-align:middle;
+     border-radius:50%;
+     background-color: #000000;
+}
+
+.jian-item-me-fontname{
+    font-size: 12px;
+    color: #2b2e30;
+}
+.jian-item-me-fontcompany{
+    font-size: 12px;
+    color: #8e8e8e;
+}
+/*jian-item end*/
+
+.jian-luyin-label{
+    font-size: 15px;
+    color: #8e8e8e;
+    line-height: 25px;
+}
+
+.jian-luyin-btn{
+    margin: 0 auto;
+    height: 60px;
+    width: 60px;
+}
+
+.jian-luyin-img{
+    height: 100%;
+    width: 100%;
+}
+
+
+.jian-luyin-1{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    color: #ffffff;
+    background-color: #6ccdff;
+    line-height: 50px;
+    font-size: 17px;
+    text-align: center;
+    margin: 5px auto;
+    /*position: absolute;*/
+    /*right: 25px;*/
+    /*bottom: 0;*/
+}
+
+.jian-luyin-2{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    color: #ffffff;
+    background-color: #6ccdff;
+    line-height: 50px;
+    font-size: 17px;
+    text-align: center;
+    margin: 5px auto;
+    /*position: absolute;*/
+    /*right: 25px;*/
+    /*bottom: 0;*/
+}
+
+.jian-luyin-yilu{
+    margin-top: 6px;
+    margin-bottom: 6px;
+    text-align: center;
+    font-size: 15px;
+    line-height: 25px;
+}
+
+.jian-luyin-start{
+    line-height: 60px;
+    color: #ff9600;
+}
+
+.jian-luyin-start-img{
+    background-color: #6ccdff;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin: 5px auto;
+}
+
+.jian-luyin-stop{
+    width:25px;
+    height: 25px;
+    margin: 12.5px;
+}
+
+
+
+.jian-item-space{
+    background-color: #ebebeb; 
+    width:100%;
+    height: 10px;
+}
+
+.jian-item-bottom{
+    background-color: #00a8ff; 
+    width:100%;
+    height: 20px;
+}
+
+
+.jian-tabbar-fabu{
+    width: 100%;
+    height: 45px;
+    text-align: center;
+    font-size: 18px;
+    color: #ffffff;
+    background-color: #00a8ff;
+    line-height: 48px;
+}
