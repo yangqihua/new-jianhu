@@ -3,8 +3,7 @@
 ---
 
 ### LOGO以及公众号：
-<img src="http://i.pengxun.cn/thumb/articles/20160809/131152257267080082@200x200.jpg" width="300" alt="公众号" align=center />
-<img src="http://oss.vzan.cc/image/jpg/2016/9/17/190134df732e804ed6430f8862caa482600ad1.jpg" width="300" alt="公众号" align=center />
+<img src="http://i.pengxun.cn/thumb/articles/20160809/131152257267080082@200x200.jpg" width="300" alt="公众号" align=center />      <img src="http://oss.vzan.cc/image/jpg/2016/9/17/190134df732e804ed6430f8862caa482600ad1.jpg" width="300" alt="公众号" align=center />
 
 ### 部分应用截图：
 <img src="http://oss.vzan.cc/image/jpg/2016/9/17/1603558eafbbea90b7408986afdaf4f382782f.jpg" width="380"/>    <img src="http://oss.vzan.cc/image/jpg/2016/9/17/1603552a675d2eb56345f2945ab0d149618b1e.jpg" width="380"/>
